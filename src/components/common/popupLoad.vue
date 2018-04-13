@@ -58,6 +58,7 @@ export default {
       suSelect (imgData) {
         this.curPath = imgData.url
         var data = {
+          type: 'source',
           url: this.curPath,
           file: imgData.file
         }
@@ -81,6 +82,7 @@ export default {
             let result = res.result.result
             this.curPath = result.filePath
             var data = {
+              type: 'local',
               url: this.curPath
             }
             this.isUpload.value = false

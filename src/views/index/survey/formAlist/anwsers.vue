@@ -1,32 +1,39 @@
 <template>
     <section class="anwsers-box">
         <el-button class="add-btn" type="primary" icon="plus" size="small" @click="addItem">增加</el-button>
-        <div class="content-body-box" v-for="(item, index) in anwsersData">
-            <div class="content-box">
-                {{item.subjectContent}}
-            </div>
-            <div class="imgs-box">
-                <upload-imgs :imgs-data="item.attachments"
-                             :object-code="item.subjectCode"
-                             :is-operate="isOperate"
-                             :item-index="index"
-                             :id-name="'question' + index"
-                             @changeImg="changeQsImg"></upload-imgs>
-            </div>
-            <section class="btn-show">
-                <div class="btn-hover">
-                    <el-button class="delete-btn" type="danger"
-                        :plain="true" size="small"icon="delete"
-                        @click="deleteItem(item)">删除</el-button>
+        <div class="content-body-box" v-for="(item, index) in anwsersList">
+            <div class="select-box">
+                <div class="single-box">
+                    <img src="../../../../assets/images/radio-now.png">
+                </div>
 
-                    <el-button class="delete-btn" type="danger"
-                            :plain="true" size="small" icon="setting"
-                            @click="editItem(item)">修改</el-button>
+                <div class="check-box">
+                    <img src="../../../../assets/images/check-now.png">
+                </div>
+            </div>
+            <section>
+                <div>
+                    {{item.subjectContent}}
+                </div>
+                <div>
+                    <small-imgs :attachment-data="item.attachment" :is-operate="true"
+                        :attachment-type="'subjectQustion'"></small-imgs>
+                </div>
+                <div>
+                    <article-list :article-list="item.articleList" @deleteArticle="deleteArticle"></article-list>
+                </div>
+                <div class="btns-box">
+                    <el-button @click="deleteItem(item)" type="primary" size="mini">删除</el-button>
+                    <el-button @click="editItem(item)" type="primary" size="mini">编辑</el-button>
                 </div>
             </section>
         </div>
 
-        <el-dialog title="添加答案" :visible.sync="isAddItem">
+        <div v-if="!anwsersList.length" class="null-page">
+            暂无选项
+        </div>
+
+        <el-dialog title="添加选项" :visible.sync="isAddItem" class="anwser-box-add">
           <el-form :label-position="'left'" :model="addFormData" label-width="80px">
             <el-form-item label="序号">
                 <el-input
@@ -36,15 +43,6 @@
                     v-model="addFormData.subjectSequence">
                 </el-input>
             </el-form-item>
-            <el-form-item label="答案">
-                <el-switch
-                    v-model="addFormData.subjectAnswer"
-                    on-color="#13ce66"
-                    off-color="#ff4949"
-                    on-value="1"
-                    off-value="0">
-                </el-switch>
-            </el-form-item>
             <el-form-item label="选项">
                 <el-input
                     type="textarea"
@@ -53,29 +51,70 @@
                     v-model="addFormData.subjectContent">
                 </el-input>
             </el-form-item>
+            <el-form-item label="选项图片">
+                <small-imgs :attachment-data="addFormData.attachment" :is-operate="true"
+                        :attachment-type="'subjectQustion'"
+                        :is-popup="true"
+                        @imgClick="imgClick"></small-imgs>
+            </el-form-item>
+            <el-form-item>
+                <div class="btn-color" @click="addAttachment" slot="label">添加附件</div>
+                <article-list :article-list="addFormData.articleList"
+                                @deleteArticle="deleteArticle"
+                                :is-edit="true"></article-list>
+            </el-form-item>
+
           </el-form>
           <div slot="footer" class="dialog-footer">
                 <el-button @click="isAddItem = false">取 消</el-button>
                 <el-button type="primary" @click="confirmItem">确 定</el-button>
           </div>
         </el-dialog>
+
+        <popup-load  :is-operate="true"
+                     :bg-path="true"
+                     :id-name="'catalogImage'"
+                     :is-upload="isUpload"
+                     @changeImg="changeItemImg"></popup-load>
+
+        <attachment-article :visible-data="visibleData"
+                            :article-code="addFormData.formData.attachmentSourceCodes"
+                          :articleList="addFormData.articleList"
+                          @getAttachments="setAttachments"
+                          :ref="'anwser'"></attachment-article>
     </section>
 </template>
 <script>
 import util from '../../../../assets/common/util'
-import anwsers from './anwsers'
-import uploadImgs from '../../../../components/common/upload-imgs'
+import smallImgs from '../../../../components/common/small-imgs'
+import popupLoad from '../../../../components/common/popupLoad.vue'
+import attachmentArticle from '../../../../components/common/attachment-article'
+import articleList from './articleList'
 
 export default {
-    props: ['anwsersData', 'anwserType'],
     data () {
         return {
+            anwsersList: [],
+            articleCode: [],
+            articleList: [],
             isOperate: true,
             isAddItem: false,
             addFormData: {
                 subjectContent: '',
-                subjectAnswer: '0',
-                subjectSequence: 0
+                subjectSequence: 0,
+                attachment: [],
+                formData: {
+                    attachmentTargetType: 'subjectQustion',
+                    attachmentSourceType: "attachmen_type_4",
+                    attachmentSourceCodes: []
+                },
+                articleList: []
+            },
+            isUpload: {
+                value: false
+            },
+            visibleData: {
+              show: false
             }
         }
     },
@@ -83,11 +122,21 @@ export default {
         // this.getQuestions()
     },
     methods: {
-        changeQsImg (data) {
-            var obj = {
-                attachmentSourceCode: data.url
+        imgClick () {
+            this.isUpload.value = true
+        },
+        changeItemImg (data) {
+            var imgData = {
+              attachmentTargetType: 'subjectAnwsers',
+              attachmentSourceType: "attachmen_type_8",
+              attachmentSourceCode: data.url
             }
-            this.questionsList[data.index].attachments.push(obj)
+
+            if (data.type == 'local') {
+                imgData.attachmentSourceType = 'attachmen_type_1'
+            }
+
+            this.addFormData.attachment.push(imgData)
         },
         deleteItem (item) {
             util.request({
@@ -112,10 +161,15 @@ export default {
             this.addFormData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 surveyCode: this.$route.query.surveyCode,
-                subjectChooseType: this.anwserType,
-                subjectType: 'survey_subject_type_2',
                 subjectContent: '',
-                subjectAnswer: '0'
+                subjectSequence: 0,
+                attachment: [],
+                formData: {
+                    attachmentTargetType: 'subjectQustion',
+                    attachmentSourceType: "attachmen_type_4",
+                    attachmentSourceCodes: []
+                },
+                articleList: []
             }
 
             this.isAddItem = true
@@ -138,16 +192,43 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        addAttachment (index) {
+            var anwserData = this.addFormData
+
+            this.articleCode = [].concat(anwserData.formData.attachmentSourceCodes)
+            this.articleList = [].concat(anwserData.articleList)
+            this.visibleData.show = true
+            this.$refs['anwser'].initData()
+        },
+        setAttachments (articleData) {
+            var anwserData = this.addFormData
+            anwserData.formData.attachmentSourceCodes = [].concat(articleData.codes)
+            anwserData.articleList = [].concat(articleData.datas)
+        },
+        deleteArticle (index) {
+            var anwserData = this.addFormData
+
+            anwserData.articleList.splice(index, 1)
+            anwserData.formData.attachmentSourceCodes.splice(index, 1)
         }
     },
     components: {
-        anwsers,
-        uploadImgs
+        smallImgs,
+        attachmentArticle,
+        articleList,
+        popupLoad
     }
 }
 </script>
 <style lang="scss">
 .anwsers-box {
+    .anwser-box-add {
+        .el-dialog  {
+            width: 800px;
+        }
+    }
+
     .content-body-box {
 
     }

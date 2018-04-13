@@ -1,5 +1,5 @@
 <template>
-    <div class="market-list-box">
+    <div class="market-list-box duan-list-box">
         <div class="input-box">
             <input
                 placeholder="请输入需查询条件"
@@ -145,104 +145,5 @@ export default {
 .market-list-box {
     width: 1000px;
     margin: 80px auto 30px;
-
-    .input-box {
-        display: block;
-        width: 800px;
-        height: 50px;
-        margin: 0 auto 30px;
-
-        .input-search {
-          float: left;
-          width: 600px;
-          height: 50px;
-          appearance: none;
-          font-size: 14px;
-          background-color: #fff;
-          background-image: none;
-          border-radius: 4px;
-          border: 1px solid #bfcbd9;
-          box-sizing: border-box;
-          color: #1f2d3d;
-          font-size: inherit;
-          line-height: 1;
-          outline: 0;
-          padding: 3px 10px;
-        }
-
-        .search-btn {
-          position: relative;
-          float: left;
-          margin-left: -10px;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-          height: 50px;
-          font-size: 16px;
-          padding: 0 23px;
-        }
-
-        .add-new-btn {
-            float: right;
-            height: 50px;
-        }
-    }
-
-    .no-add {
-      width: 696px;
-    }
-
-    .big-cards-box {
-
-      .card-btns {
-        text-align: right;
-        position: absolute;
-        font-size: 16px;
-        color: #000000;
-        right: 10px;
-        bottom: 23px;
-      }
-
-      .card-box {
-        position: relative;
-        display: block;
-        overflow: hidden;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #C0CCDA;
-        margin-bottom: 20px;
-
-        .card-img {
-          float: left;
-          width: 160px;
-          height: 100px;
-          background: #cfcfd0;
-
-          img {
-            display: block;
-            width: 160px;
-            height: 100px;
-          }
-        }
-
-        .card-content {
-          float: right;
-          width: 820px;
-
-          .card-title {
-            font-size: 16px;
-            line-height: 24px;
-            color: #000000;
-            margin-bottom: 3px;
-          }
-
-          .card-desc {
-            font-size: 14px;
-            line-height: 24px;
-            color: #475669;
-            height: 48px;
-            overflow: hidden;
-          }
-        }
-      }
-    }
 }
 </style>

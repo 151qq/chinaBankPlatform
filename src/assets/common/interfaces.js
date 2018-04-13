@@ -60,6 +60,8 @@ export default {
         deleteSurvey: platform + 'surveyInfo/deleteSurvey.json',
         selectSurveyInfo: platform + 'surveyInfo/selectSurveyInfoBySurveyCode.json',
 
+        selectAllTagDef: platform + 'tagDef/selectAllTagDef.json',
+
 
         manageSurveySubject: platform + 'surveySubject/manageSurveySubject.json',
         selectSurveySBySC: platform + 'surveySubject/selectSurveySubjectBySurveyCode.json',

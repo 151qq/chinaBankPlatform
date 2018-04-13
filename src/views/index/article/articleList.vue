@@ -1,5 +1,5 @@
 <template>
-    <div class="article-list-box">
+    <div class="article-list-box duan-list-box">
         <div class="btn-input-box">
             <el-button class="add-new-btn"
                        type="primary"
@@ -286,101 +286,5 @@ export default {
 <style lang="scss">
 .article-list-box {
     margin: auto;
-
-    .btn-input-box {
-        position: absolute;
-        right: 0;
-        top: -50px;
-        display: block;
-        height: 30px;
-        margin: 0 auto 30px;
-
-        .el-input {
-          float: left;
-          width: 200px;
-          height: 30px;
-
-          input {
-            font-size: 14px;
-            height: 30px;
-          }
-        }
-
-        .search-btn {
-          position: relative;
-          float: left;
-          margin-left: -10px;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-          height: 30px;
-          font-size: 16px;
-          padding: 0 23px;
-        }
-
-        .add-new-btn {
-            float: right;
-            height: 30px;
-            line-height: 30px;
-            padding: 0 10px;
-        }
-    }
-
-    .no-add {
-      width: 696px;
-    }
-
-    .big-cards-box {
-
-      .card-btns {
-        text-align: right;
-        position: absolute;
-        font-size: 16px;
-        color: #000000;
-        right: 10px;
-        bottom: 23px;
-      }
-
-      .card-box {
-        position: relative;
-        display: block;
-        overflow: hidden;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #C0CCDA;
-        margin-bottom: 20px;
-
-        .card-img {
-          float: left;
-          width: 160px;
-          height: 100px;
-          background: #cfcfd0;
-
-          img {
-            display: block;
-            width: 160px;
-            height: 100px;
-          }
-        }
-
-        .card-content {
-          float: right;
-          width: 820px;
-
-          .card-title {
-            font-size: 16px;
-            line-height: 24px;
-            color: #000000;
-            margin-bottom: 3px;
-          }
-
-          .card-desc {
-            font-size: 14px;
-            line-height: 24px;
-            color: #475669;
-            height: 48px;
-            overflow: hidden;
-          }
-        }
-      }
-    }
 }
 </style>

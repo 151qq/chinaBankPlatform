@@ -37,7 +37,7 @@
     </el-dialog>
 </template>
 <script>
-import util from '../../assets/common/util';
+import util from '../../assets/common/util'
 
 export default{
     props: ['selectData', 'docType'],

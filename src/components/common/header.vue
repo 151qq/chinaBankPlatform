@@ -28,10 +28,10 @@
                     }}">
         礼品中心
       </router-link>
-      <!-- <router-link :to="{ name: 'survey',query:{enterpriseCode: userInfo.enterpriseCode}}">
+      <router-link :to="{ name: 'survey',query:{enterpriseCode: userInfo.enterpriseCode}}">
         调研发布
       </router-link>
-      <router-link :to="{ name: 'cultivate',query:{enterpriseCode: userInfo.enterpriseCode}}">
+      <!-- <router-link :to="{ name: 'cultivate',query:{enterpriseCode: userInfo.enterpriseCode}}">
         营销培训
       </router-link> -->
       <!-- <router-link  v-if="isMember || isRoot"
