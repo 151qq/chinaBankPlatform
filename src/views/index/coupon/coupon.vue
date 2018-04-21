@@ -194,7 +194,7 @@ export default {
         this.getBase()
       } else {
         this.quanData.enterpriseCode = this.$route.query.enterpriseCode
-        this.quanData.couponGroupCode = this.$route.query.couponGroupCode
+        this.quanData.couponGroupCode = this.$route.query.eventCode
         this.quanData.couponGetLimit = 1
         this.quanData.couponUseLimit = 1
         this.quanData.couponTransferOpt = '1'
@@ -219,13 +219,13 @@ export default {
         getBase () {
           util.request({
               method: 'get',
-              interface: 'couponInfoGet',
+              interface: 'couponGet',
               data: {
                 couponCode: this.$route.query.couponCode
               }
           }).then((res) => {
               if (res.result.success == '1') {
-                let result = res.result.result.couponInfo
+                let result = res.result.result
 
                 if (result.couponLeastCost) {
                   this.couponLeastCost = Math.floor(result.couponLeastCost / 100)
@@ -419,8 +419,13 @@ export default {
               if (res.result.success == '1') {
                 this.getBase()
 
+                var pathName = 'market-detail'
+                if (this.$route.query.eventType == '2') {
+                  pathName = 'game-detail'
+                }
+
                 var pathObj = {
-                  name: 'market-detail',
+                  name: pathName,
                   query: {
                     eventCode: this.$route.query.eventCode,
                     enterpriseCode: this.$route.query.enterpriseCode

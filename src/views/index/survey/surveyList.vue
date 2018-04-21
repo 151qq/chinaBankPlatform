@@ -27,9 +27,13 @@
                     {{item.subjectContent}}
                 </div>
                 <section class="card-btns">
-                    <i class="el-icon el-icon-delete2"
-                        v-if="isEditor"
-                        @click.prevent="deleteItem(item)"></i>
+                        <el-button v-if="item.subjectStatus != '1'"
+                            class="list-btn" type="info" :plain="true" size="small"
+                            @click.prevent="submitItem(item)">发布</el-button>
+
+                        <el-button class="list-btn" type="danger" :plain="true" size="small"
+                            @click.prevent="deleteItem(item)">删除</el-button>
+
                 </section>
             </router-link>
         </section>
@@ -37,9 +41,15 @@
         <section class="null-box" v-if="!marketList.length && isPage">
           暂无内容！！！
         </section>
-        <div class="more-load"
-                v-if="total && marketList.length < total"
-                @click="loadMore">加载更多...</div>
+
+        <el-pagination
+            v-if="total"
+            class="page-box"
+            @current-change="pageChange"
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :total="total">
+        </el-pagination>
   </div>
 </template>
 <script>
@@ -51,25 +61,14 @@ export default {
         return {
             isPage: false,
             keyValue: '',
-            marketList: [
-              { 
-                enterpriseCode: 20180401133451260,
-                subjectCode: '22298838373773',
-                subjectContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget.'
-              },
-              { 
-                enterpriseCode: 20180401133451260,
-                subjectCode: '22298838373773',
-                subjectContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget.'
-              }
-            ],
+            marketList: [],
             pageSize: 20,
             pageNumber: 1,
             total: 0
         }
     },
     mounted () {
-         // this.getList()
+         this.getList()
     },
     computed: {
         ...mapGetters({
@@ -84,22 +83,20 @@ export default {
         searchItem () {
           this.getList()
         },
-        getList (type) {
+        getList () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                surveyType: this.surveyType,
-                surveyScenario: this.userInfo.userCode,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
-            if (this.keyValue) {
-                formData.keyValue = this.keyValue
+            if (this.subjectContent) {
+                formData.subjectContent = this.keyValue
             }
 
             util.request({
-                method: 'get',
-                interface: 'selectByEcAndTy',
+                method: 'post',
+                interface: 'subjectList',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -109,11 +106,7 @@ export default {
 
                 this.total = Number(res.result.total)
                 this.isPage = true
-                if (!type) {
-                    this.marketList = res.result.result
-                } else {
-                    this.marketList = this.marketList.concat(res.result.result)
-                }
+                this.marketList = res.result.result
             })
         },
         addItem () {
@@ -126,12 +119,35 @@ export default {
 
             this.$router.push(pathUrl)
         },
+        submitItem (item) {
+            util.request({
+              method: 'post',
+              interface: 'submitSubject',
+              data: {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                subjectCode: item.subjectCode,
+                subjectStatus: '1'
+              }
+            }).then(res => {
+              if (res.result.success == '1') {
+                this.getList()
+
+                this.$message({
+                  type: 'success',
+                  message: '发布成功!'
+                })
+              } else {
+                this.$message.error(res.result.message)
+              }
+            })
+        },
         deleteItem (item) {
             util.request({
               method: 'get',
-              interface: 'deleteSurvey',
+              interface: 'deleteSubject',
               data: {
-                surveyCode: item.surveyCode
+                enterpriseCode: this.$route.query.enterpriseCode,
+                subjectCode: item.subjectCode
               }
             }).then(res => {
               if (res.result.success == '1') {
@@ -146,9 +162,9 @@ export default {
               }
             })
         },
-        loadMore () {
-            this.pageNumber++
-            this.getList('more')
+        pageChange (size) {
+            this.pageNumber = size
+            this.getList()
         }
     }
 }

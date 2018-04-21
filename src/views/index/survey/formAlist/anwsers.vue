@@ -2,29 +2,31 @@
     <section class="anwsers-box">
         <el-button class="add-btn" type="primary" icon="plus" size="small" @click="addItem">增加</el-button>
         <div class="content-body-box" v-for="(item, index) in anwsersList">
-            <div class="select-box">
-                <div class="single-box">
-                    <img src="../../../../assets/images/radio-now.png">
+            <div class="select-box" @click="selectAnwser(item)">
+                <div class="single-box" v-if="item.subjectChooseType == '1'">
+                    <img v-if="item.subjectAnswer == '1'" src="../../../../assets/images/radio-now.png">
+                    <img v-else src="../../../../assets/images/radio-icon.png">
                 </div>
 
-                <div class="check-box">
-                    <img src="../../../../assets/images/check-now.png">
+                <div class="check-box" v-if="item.subjectChooseType == '0'">
+                    <img v-if="item.subjectAnswer == '1'" src="../../../../assets/images/check-now.png">
+                    <img v-else src="../../../../assets/images/check-icon.png">
                 </div>
             </div>
-            <section>
-                <div>
+            <section class="anwser-content">
+                <div class="anwser-title content-box" @click="selectAnwser(item)">
                     {{item.subjectContent}}
                 </div>
-                <div>
-                    <small-imgs :attachment-data="item.attachment" :is-operate="true"
+                <div class="content-box" v-if="item.attachment.length">
+                    <small-imgs :attachment-data="item.attachment"
                         :attachment-type="'subjectQustion'"></small-imgs>
                 </div>
-                <div>
-                    <article-list :article-list="item.articleList" @deleteArticle="deleteArticle"></article-list>
+                <div class="content-box" v-if="item.articleList.length">
+                    <article-list :article-list="item.articleList"></article-list>
                 </div>
                 <div class="btns-box">
-                    <el-button @click="deleteItem(item)" type="primary" size="mini">删除</el-button>
-                    <el-button @click="editItem(item)" type="primary" size="mini">编辑</el-button>
+                    <el-button class="btn-list" @click="deleteItem(item)" :plain="true" type="danger" size="mini">删除</el-button>
+                    <el-button class="btn-list" @click="editItem(item)" :plain="true" type="info" size="mini">编辑</el-button>
                 </div>
             </section>
         </div>
@@ -43,21 +45,37 @@
                     v-model="addFormData.subjectSequence">
                 </el-input>
             </el-form-item>
-            <el-form-item label="选项">
+
+            <el-form-item label="选项" v-if="base.optionCssType == '2'">
                 <el-input
                     type="textarea"
-                    :rows="3"
-                    placeholder="请输入内容"
+                    :rows="1"
+                    :max="9"
+                    placeholder="请输入内容,最多9个字"
                     v-model="addFormData.subjectContent">
                 </el-input>
             </el-form-item>
-            <el-form-item label="选项图片">
-                <small-imgs :attachment-data="addFormData.attachment" :is-operate="true"
-                        :attachment-type="'subjectQustion'"
-                        :is-popup="true"
-                        @imgClick="imgClick"></small-imgs>
+
+            <el-form-item label="选项" v-else>
+                <el-input
+                    type="textarea"
+                    :rows="3"
+                    :max="140"
+                    placeholder="请输入内容,最多140个字"
+                    v-model="addFormData.subjectContent">
+                </el-input>
             </el-form-item>
-            <el-form-item>
+
+            <el-form-item label="选项图片" v-if="base.optionCssType != '1'">
+                <small-imgs :attachment-data="addFormData.attachment"
+                            :is-operate="true"
+                            :attachment-type="'subjectQustion'"
+                            :is-popup="true"
+                            :img-num="base.optionCssType == '2' ? 1 : 9"
+                            @imgClick="imgClick"></small-imgs>
+            </el-form-item>
+        
+            <el-form-item v-if="base.optionCssType == '1'">
                 <div class="btn-color" @click="addAttachment" slot="label">添加附件</div>
                 <article-list :article-list="addFormData.articleList"
                                 @deleteArticle="deleteArticle"
@@ -90,8 +108,10 @@ import smallImgs from '../../../../components/common/small-imgs'
 import popupLoad from '../../../../components/common/popupLoad.vue'
 import attachmentArticle from '../../../../components/common/attachment-article'
 import articleList from './articleList'
+import { mapGetters } from 'vuex'
 
 export default {
+    props: ['base'],
     data () {
         return {
             anwsersList: [],
@@ -100,6 +120,8 @@ export default {
             isOperate: true,
             isAddItem: false,
             addFormData: {
+                subjectType: '0',
+                subjectParent: '',
                 subjectContent: '',
                 subjectSequence: 0,
                 attachment: [],
@@ -119,7 +141,15 @@ export default {
         }
     },
     mounted () {
-        // this.getQuestions()
+        this.getQuestions()
+    },
+    computed: {
+      ...mapGetters({
+          userInfo: 'getUserInfo'
+      }),
+      isEdit () {
+        return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
+      }
     },
     methods: {
         imgClick () {
@@ -138,10 +168,54 @@ export default {
 
             this.addFormData.attachment.push(imgData)
         },
-        deleteItem (item) {
+        getQuestions () {
+            util.request({
+                method: 'get',
+                interface: 'optiondetails',
+                data: {
+                    subjectCode: this.$route.query.subjectCode
+                }
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.anwsersList = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        selectAnwser (item) {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                subjectParent: this.$route.query.subjectCode,
+                subjectCode: item.subjectCode,
+                subjectChooseType: item.subjectChooseType,
+                subjectAnswer: item.subjectAnswer ? '0' : '1'
+            }
+
+            if (item.subjectChooseType == '1') {
+                formData.subjectAnswer = '1'
+            }
+
             util.request({
                 method: 'post',
-                interface: 'deleteSurveySubject',
+                interface: 'changeAnwser',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.getQuestions()
+                    this.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                    })
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        deleteItem (item) {
+            util.request({
+                method: 'get',
+                interface: 'deleteSubject',
                 data: {
                   subjectCode: item.subjectCode
                 }
@@ -158,11 +232,24 @@ export default {
             })
         },
         addItem () {
+            if (this.base.optionCssType == '2' && this.anwsersList.length >= 4) {
+                this.$message({
+                    message: '最多添加4个选项！',
+                    type: 'warning'
+                })
+                return false
+            }
+
             this.addFormData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                surveyCode: this.$route.query.surveyCode,
+                subjectParent: this.$route.query.subjectCode,
+                optionCssType: this.base.optionCssType,
+                subjectCssType: this.base.subjectCssType,
+                subjectChooseType: this.base.subjectChooseType,
+                subjectAnwser: '0',
+                subjectType: '0',
                 subjectContent: '',
-                subjectSequence: 0,
+                subjectSequence: '',
                 attachment: [],
                 formData: {
                     attachmentTargetType: 'subjectQustion',
@@ -180,9 +267,25 @@ export default {
             this.isAddItem = true
         },
         confirmItem () {
+            if (!this.addFormData.subjectSequence) {
+                this.$message({
+                    message: '请填写选项序号！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.addFormData.subjectContent) {
+                this.$message({
+                    message: '请填写选项内容！',
+                    type: 'warning'
+                })
+                return false
+            }
+
             util.request({
                 method: 'post',
-                interface: 'manageSurveySubject',
+                interface: 'manageSubjectInfo',
                 data: this.addFormData
             }).then(res => {
                 if (res.result.success == '1') {
@@ -230,58 +333,41 @@ export default {
     }
 
     .content-body-box {
+        display: flex;
 
-    }
+        .select-box {
+            padding-top: 4px;
+            margin-right: 10px;
+            cursor: pointer;
 
-    .btn-show {
-        margin-bottom: 10px;
-
-        .btn-hover {
-            display: block;
-            margin-top: 10px;
-            overflow: hidden;
-
-            .sort-box {
-                float: left;
-
-                .sortInput {
-                    width: 80px;
-                    height: 28px;
-
-                    .el-input__inner {
-                        height: 28px;
-                    }
-
-                    .el-input-group__append {
-                        padding: 0;
-                    }
-                }
+            img {
+                display: block;
+                width: 16px;
+                height: 16px;
             }
         }
 
-        .btns {
-            background: #EFF2F7;
-            display: block;
-            padding: 12px;
-            overflow: hidden;
+        .anwser-content {
+            flex: 1;
 
-            .del-btn {
-              float: right;
-              width: 16px;
-              height: 16px;
-              cursor: pointer;
-              margin-left: 9px;
+            .anwser-title {
+                font-size: 16px;
+                line-height: 24px;
+                color: #000000;
+                cursor: pointer;
+            }
 
-              &:hover {
-                opacity: 0.8;
-              }
+            .content-box {
+                margin-bottom: 10px;
             }
         }
 
+        .btns-box {
+            text-align: right;
 
-        .delete-btn {
-            float: right;
-            margin-left: 10px;
+            .btn-list {
+                margin-left: 10px;
+            }
         }
     }
 }

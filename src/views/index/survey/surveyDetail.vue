@@ -2,17 +2,17 @@
     <div class="form-discount">
         <el-collapse v-model="activeNames" @change="collChange">
           <el-collapse-item class="float-form-box" title="题目信息" name="0">
-            <survey-base></survey-base>
+            <survey-base @hasBase="hasBase"></survey-base>
           </el-collapse-item>
 
-          <template v-if="$route.query.subjectCode">
+          <template v-if="baseData.subjectCode">
             <div class="line-bold"></div>
             <el-collapse-item class="float-form-box" title="题目标签" name="1">
               <subject-tag></subject-tag>
             </el-collapse-item>
             <div class="line-bold"></div>
             <el-collapse-item class="float-form-box" title="题目选项" name="2">
-              <anwsers></anwsers>
+              <anwsers :base="baseData"></anwsers>
             </el-collapse-item>
           </template>
         </el-collapse>          
@@ -38,6 +38,9 @@ export default {
         }
     },
     methods: {
+        hasBase (base) {
+            this.baseData = Object.assign({}, base)
+        },
         collChange () {
             localStorage.setItem("surveyColl", this.activeNames)
         }

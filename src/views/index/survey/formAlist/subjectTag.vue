@@ -35,11 +35,11 @@
             <span>题目所属题材</span>
             <el-select
               class="input-box"
-              v-model="base.age"
+              v-model="base.content_type"
               filterable
               placeholder="请选择">
               <el-option
-                v-for="(item, index) in tagList.age"
+                v-for="(item, index) in tagList.content_type"
                 :key="index"
                 :label="item.tagValueCname"
                 :value="item.tagValue">
@@ -163,8 +163,10 @@ export default {
     data () {
         return {
             base: {
+              enterpriseCode: '',
+              subjectCode: '',
               age: '',
-              consume_decision_type: '',
+              content_type: '',
               consume_level: '',
               education: '',
               gender: '',
@@ -176,7 +178,7 @@ export default {
             },
             tagList: {
                 age: [],
-                consume_decision_type: [],
+                content_type: [],
                 consume_level: [],
                 education: [],
                 gender: [],
@@ -189,8 +191,7 @@ export default {
         }
     },
     mounted () {
-      // this.getTags()
-      // this.getBase()
+      this.getTags()
     },
     methods: {
         getTags () {
@@ -201,6 +202,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.tagList = res.result.result
+                    this.getBase()
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -209,26 +211,25 @@ export default {
         getBase () {
           util.request({
               method: 'get',
-              interface: 'selectSurveyInfo',
+              interface: 'getRelation',
               data: {
-                surveyCode: this.$route.query.surveyCode
+                enterpriseCode: this.$route.query.enterpriseCode,
+                subjectCode: this.$route.query.subjectCode
               }
           }).then(res => {
-              this.base = res.result.result
+              if (res.result.success == '1') {
+                this.base = Object.assign(this.base, res.result.result)
+              }
+              
           })
         },
         saveBase () {
-            if (!this.base.surveyTitle) {
-                this.$message({
-                    message: '请填写调研标题！',
-                    type: 'warning'
-                })
-                return false
-            }
+            this.base.enterpriseCode = this.$route.query.enterpriseCode
+            this.base.subjectCode = this.$route.query.subjectCode
             
             util.request({
                 method: 'post',
-                interface: 'manageSurveyInfo',
+                interface: 'createRelation',
                 data: this.base
             }).then(res => {
                 if (res.result.success == '1') {

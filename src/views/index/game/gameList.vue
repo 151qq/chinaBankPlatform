@@ -16,7 +16,7 @@
             <router-link class="card-box"
                          target="_blank"
                          v-for="(item, index) in marketList"
-                         :to="{name: 'market-detail', query: {eventCode: item.eventCode, enterpriseCode: item.enterpriseCode}}">
+                         :to="{name: 'game-detail', query: {eventCode: item.eventCode, enterpriseCode: item.enterpriseCode}}">
                 <div class="card-img">
                     <img v-if="item.eventPlanCover" :src="item.eventPlanCover">
                 </div>
@@ -41,7 +41,6 @@
         <section class="null-box" v-if="!marketList.length && isPage">
           暂无内容！！！
         </section>
-
         <el-pagination
             v-if="total"
             class="page-box"
@@ -83,7 +82,7 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 eventDesigner: this.userInfo.userCode,
-                eventType: '1',
+                eventType: '2',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
@@ -113,7 +112,7 @@ export default {
               interface: 'eventInfoDelete',
               data: {
                 eventCode: item.eventCode,
-                eventType: '1'
+                eventType: '2'
               }
             }).then(res => {
               if (res.result.success == '1') {
@@ -130,7 +129,7 @@ export default {
         },
         addItem () {
             var pathUrl = {
-              name: 'market-detail',
+              name: 'game-detail',
               query: {
                 enterpriseCode: this.$route.query.enterpriseCode
               }
@@ -140,7 +139,7 @@ export default {
         },
         pageChange (size) {
             this.pageNumber = size
-            this.getList()
+            this.getList('more')
         }
     }
 }

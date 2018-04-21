@@ -54,19 +54,18 @@ export default {
         /**
         * 调研 get
         */
-        manageSurveyInfo: platform + 'surveyInfo/manageSurveyInfo.json',
-        updateSurveyStatus: platform + 'surveyInfo/updateSurveyStatus.json',
-        selectByEcAndTy: platform + 'surveyInfo/selectByEcAndTy.json',
-        deleteSurvey: platform + 'surveyInfo/deleteSurvey.json',
-        selectSurveyInfo: platform + 'surveyInfo/selectSurveyInfoBySurveyCode.json',
+        subjectList: platform + 'subject/subjectList.json',
+        manageSubjectInfo: platform + 'subject/create.json',
+        deleteSubject: platform + 'subject/deleteSubject.json',
+        submitSubject: platform + 'subject/submit.json',
+        subjectDetails: platform + 'subject/details.json',
 
         selectAllTagDef: platform + 'tagDef/selectAllTagDef.json',
+        createRelation: platform + 'subjecttag/createRelation.json',
+        getRelation: platform + 'subjecttag/getRelation.json',
 
-
-        manageSurveySubject: platform + 'surveySubject/manageSurveySubject.json',
-        selectSurveySBySC: platform + 'surveySubject/selectSurveySubjectBySurveyCode.json',
-        selectSurveySBySS: platform + 'surveySubject/selectSurveySubjectBySurveySubjectCode.json',
-        deleteSurveySubject: platform + 'surveySubject/deleteSurveySubjectBySurveySubjectCode.json',
+        optiondetails: platform + 'subject/optiondetails.json',
+        changeAnwser: platform + 'subject/changeAnwser.json',
 
         attachmentInsert: platform + 'attachment/attachmentInsert.json',
         attachmentDelete: platform + 'attachment/attachmentDelete.json',
@@ -115,7 +114,7 @@ export default {
         eventInfoUpdate: platform + 'event/eventInfoUpdate.json',
         eventInfoChangeStatus: platform + 'event/eventInfoChangeStatus.json',
 
-
+        couponGet: platform + 'coupon/couponGet.json',
         couponInfoList: platform + 'coupon/couponInfoList.json',
         couponInfoDelete: platform + 'coupon/couponInfoDelete.json',
         couponInfoInsert: platform + 'coupon/couponInfoInsert.json',
@@ -126,9 +125,21 @@ export default {
 
         manageCouponGroup: platform + 'couponGroup/manageCouponGroup.json',
         deleteCouponGroup: platform + 'couponGroup/deleteCouponGroup.json',
-        couponGroupOfPage: platform + 'couponGroup/couponGroupOfPage.json',
+        couponGroupOfPage: platform + 'couponGroup/couponGroupPage.json',
 
 
+
+        getGameInfoByCode: platform + 'game/getGameInfoByCode.json',
+        getGameGateListByCode: platform + 'gamegate/getGameGateListByCode.json',
+        gameInfoOperate: platform + 'game/gameInfoOperate.json',
+        gameGateOperate: platform + 'gamegate/gameGateOperate.json',
+        gameGateDelete: platform + 'gamegate/gameGateDelete.json',
+
+        gameTemplateDetail: platform + 'gamesubjecttemplate/details.json',
+        deteleGameSubjectTemplate: platform + 'gamesubjecttemplate/deteleGameSubjectTemplate.json',
+        gameTemplatechangeStatus: platform + 'gamesubjecttemplate/changeStatus.json',
+        gamesubjecttemplateCreate: platform + 'gamesubjecttemplate/create.json',
+        gameSubjectTemplateListt: platform + 'gamesubjecttemplate/gameSubjectTemplateList.json',
 
         /**
         * 推荐文章 get

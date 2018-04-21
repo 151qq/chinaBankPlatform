@@ -41,7 +41,7 @@
 import util from '../../assets/common/util'
 
 export default {
-    props: ['visibleData', 'articleCode', 'articleList'],
+    props: ['visibleData', 'articleCode', 'articleList', 'maxLength'],
     data () {
         return {
             selectData: {
@@ -102,12 +102,22 @@ export default {
             this.$emit('getAttachments', selectData)
         },
         checkSelect (item) {
+            var maxLength = this.maxLength || 1
+
             var index = this.selectData.codes.indexOf(item.pageCode)
 
             if (index > -1) {
                 this.selectData.codes.splice(index, 1)
                 this.selectData.datas.splice(index, 1)
             } else {
+                if (this.selectData.codes.length >= maxLength) {
+                    this.$message({
+                        message: '最多选择' + maxLength + '个附件！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+                
                 this.selectData.codes.push(item.pageCode)
                 this.selectData.datas.push(item)
             }

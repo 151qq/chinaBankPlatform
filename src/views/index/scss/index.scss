@@ -621,16 +621,17 @@
         }
 
         .card-btns {
+          margin-left: 15px;
           text-align: right;
           font-size: 16px;
           line-height: 16px;
           color: #000000;
 
-          .el-icon {
-            margin-left: 20px;
+          .list-btn {
+            margin-bottom: 5px;
 
-            &:hover {
-              color: #999999;
+            &:last-child {
+              margin-bottom: 0;
             }
           }
         }
@@ -709,3 +710,255 @@
     }
   }
 }
+
+.page-box {
+    margin-top: 10px;
+}
+
+// 游戏进行页
+.gmBodyArea {
+  flex: 1;
+  display: block;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow: auto;
+
+  .anwser-box {
+    display: flex;
+
+    .select-box {
+      width: 60px;
+
+      img {
+        display: block;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .attachment-box {
+    display: flex;
+    align-items: center;
+
+    .img-box {
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        display: block;
+        height: 100%;
+        width: auto;
+        margin-right: 10px;
+      }
+    }
+
+    .attachment-content {
+      flex: 1;
+    }
+  }
+
+  .money-box {
+    text-align: center;
+    margin-top: 10px;
+    line-height: 30px;
+    color: #000000;
+    font-size: 14px;
+
+    p {
+      font-size: 13px;
+      color: #999999;
+    }
+  }
+
+  .honor-box {
+    padding: 15px;
+    margin-top: 20px;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .comment-box {
+    display: flex;
+    margin-top: 10px;
+
+    .comment-attar {
+      width: 60px;
+      height: 40px;
+      overflow: hidden;
+      margin-right: 10px;
+      background: #e5e5e5;
+
+      img {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .comment-content {
+      flex: 1;
+
+      .comment-name {
+        display: block;
+        line-height: 20px;
+        font-size: 13px;
+        color: #000000;
+      }
+
+      .comment-text {
+        display: block;
+        line-height: 20px;
+        font-size: 13px;
+        color: #999999;
+      }
+
+      .comment-imgs {
+        margin-top: 5px;
+        overflow: hidden;
+
+        img {
+          height: 30px;
+          float: left;
+          margin: 0 3px 3px 0;
+        }
+      }
+    }
+  }
+}
+
+.person-message-box {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+
+  .person-box {
+    padding-top: 30px;
+
+    .attar-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: auto;
+      margin-bottom: 10px;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .user-info-box {
+    padding: 15px;
+    display: flex;
+
+    .attar-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: auto;
+      margin-right: 10px;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .user-content {
+      flex: 1;
+
+      .user-name {
+        display: block;
+        line-height: 30px;
+        font-size: 14px;
+        color: #ffffff;
+      }
+
+      .user-text {
+        display: block;
+        line-height: 30px;
+        font-size: 14px;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .user-data-box {
+    width: 80%;
+    margin: 10px auto;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 120px;
+    }
+  }
+}
+
+.person-pk-box {
+  display: flex;
+
+  .person-box {
+    height: 160px;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    flex: 1;
+    padding-top: 20px;
+
+    .attar-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: auto;
+      margin-bottom: 10px;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .message-box {
+      text-align: center;
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 24px;
+    }
+  }
+}
+
+.bottom-btn-box {
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+
+  .btn-box {
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+  }
+}
+
+
+
+

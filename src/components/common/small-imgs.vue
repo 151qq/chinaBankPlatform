@@ -7,7 +7,7 @@
         <i class="el-icon-close" @click.self="deleteImg(index)"></i>
       </div>
     </section>
-    <label v-if="isOperate && attachmentData.length < 9" class="img-box" @click="showMedia">
+    <label v-if="isOperate && imgNum && attachmentData.length < imgNum" class="img-box" @click="showMedia">
       <img class="img-big" src="../../assets/images/add-img.jpg">
     </label>
 
@@ -37,7 +37,7 @@ import fileLists from './fileLists'
 import swiperAttachment from './swiper-attachment.vue'
 
 export default {
-    props: ['attachmentData', 'attachmentType', 'isOperate', 'subjectCode', 'isPopup'],
+    props: ['attachmentData', 'attachmentType', 'isOperate', 'subjectCode', 'isPopup', 'imgNum'],
     data() {
       return {
         idFor: 'upload-file-single',

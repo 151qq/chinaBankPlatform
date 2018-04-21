@@ -241,7 +241,7 @@ const routers = [
               })
             },
             meta: {
-              title: '调研发布'
+              title: '题库列表'
             }
           },
           {
@@ -254,7 +254,7 @@ const routers = [
               })
             },
             meta: {
-              title: '调研发布'
+              title: '题目详情'
             }
           }
         ]
@@ -297,7 +297,7 @@ const routers = [
         ]
       },
       {
-        // 营销方案
+        // 促销套券
         path: 'market',
         component (resolve) {
           require.ensure(['./market/main.vue'], () => {
@@ -306,7 +306,7 @@ const routers = [
         },
         children: [
           {
-            // 营销方案
+            // 促销套券
             path: '',
             name: 'market',
             component (resolve) {
@@ -315,11 +315,11 @@ const routers = [
               })
             },
             meta: {
-              title: '营销方案'
+              title: '促销套券'
             }
           },
           {
-            // 营销方案详情
+            // 促销套券详情
             path: 'marketDetail',
             name: 'market-detail',
             component (resolve) {
@@ -328,7 +328,45 @@ const routers = [
               })
             },
             meta: {
-              title: '营销方案'
+              title: '促销套券'
+            }
+          }
+        ]
+      },
+
+      {
+        // 答题营销
+        path: 'game',
+        component (resolve) {
+          require.ensure(['./game/main.vue'], () => {
+            resolve(require('./game/main.vue'))
+          })
+        },
+        children: [
+          {
+            // 答题营销
+            path: '',
+            name: 'game',
+            component (resolve) {
+              require.ensure(['./game/gameList.vue'], () => {
+                resolve(require('./game/gameList.vue'))
+              })
+            },
+            meta: {
+              title: '答题营销'
+            }
+          },
+          {
+            // 答题营销详情
+            path: 'gameDetail',
+            name: 'game-detail',
+            component (resolve) {
+              require.ensure(['./game/gameDetail.vue'], () => {
+                resolve(require('./game/gameDetail.vue'))
+              })
+            },
+            meta: {
+              title: '答题营销'
             }
           }
         ]
@@ -358,6 +396,19 @@ const routers = [
         },
         meta: {
           title: '文章模版'
+        }
+      },
+      {
+        // 游戏模版
+        path: 'gameTemplate',
+        name: 'game-template',
+        component (resolve) {
+          require.ensure(['./gameTemplate/gameTemplate.vue'], () => {
+            resolve(require('./gameTemplate/gameTemplate.vue'))
+          })
+        },
+        meta: {
+          title: '游戏模版'
         }
       },
       {

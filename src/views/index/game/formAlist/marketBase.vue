@@ -2,7 +2,7 @@
     <section class="product-base-box">
       <div class="formDiscount">
         <section class="formBox bigF">
-            <span>套券名称</span>
+            <span>方案名称</span>
             <el-input
               class="input-box"
               placeholder="请输入内容,最多16个字"
@@ -64,7 +64,7 @@
                 v-model="base.eventSalesOpp"></el-input>
         </section>
         <section class="formBox bigF">
-            <span>套券描述</span>
+            <span>活动方案</span>
             <el-input
               type="textarea"
               :rows="4"
@@ -100,9 +100,9 @@ export default {
               eventPlanTitle: '',
               eventStartTime: '',
               eventEndTime: '',
+              eventType: '2',
               eventStatus: '1',
               eventLeads: '',
-              eventType: '1',
               eventHotLeads: '',
               eventSalesOpp: '',
               eventPlanDesc: '',
@@ -171,8 +171,12 @@ export default {
                 eventCode: this.$route.query.eventCode
               }
           }).then(res => {
+            if (res.result.success == '1') {
               this.base = res.result.result
               this.$emit('hasBase', res.result.result)
+            } else {
+              this.$message.error(res.result.message)
+            }
           })
         },
         changeImg (data) {
@@ -268,7 +272,7 @@ export default {
                       this.getBase()
                     } else {
                       var pathUrl = {
-                        name: 'market-detail',
+                        name: 'game-detail',
                         query: {
                           eventCode: res.result.result,
                           enterpriseCode: this.$route.query.enterpriseCode

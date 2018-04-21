@@ -31,8 +31,8 @@
             <span>题目描述约束</span>
             <el-select
               class="input-box"
-              v-model="base.sujectCSStype"
-              filterable
+              v-model="base.subjectCssType"
+              :disabled="!!$route.query.subjectCode"
               placeholder="请选择">
               <el-option
                 v-for="(item, index) in selectList.sujectTypes"
@@ -46,8 +46,8 @@
             <span>选项描述约束</span>
             <el-select
               class="input-box"
-              v-model="base.optionCSSType"
-              filterable
+              v-model="base.optionCssType"
+              :disabled="!!$route.query.subjectCode"
               placeholder="请选择">
               <el-option
                 v-for="(item, index) in selectList.optionTypes"
@@ -62,7 +62,7 @@
             <el-select
               class="input-box"
               v-model="base.subjectChooseType"
-              filterable
+              :disabled="!!$route.query.subjectCode"
               placeholder="请选择">
               <el-option
                 v-for="(item, index) in selectList.chooseTypes"
@@ -72,34 +72,25 @@
               </el-option>
             </el-select>
         </section>
-        <section class="formBox">
-            <span>题目编号</span>
-            <el-input
-              class="input-box"
-              type="number"
-              :min="0"
-              placeholder="请输入内容"
-              v-model="base.subjectSequence">
-            </el-input>
-        </section>
         <section class="formBox bigF">
             <span>题目</span>
             <el-input
               type="textarea"
               :rows="4"
               :maxlength="200"
-              placeholder="请输入内容"
+              placeholder="请输入内容,最多200个字"
               v-model="base.subjectContent">
             </el-input>
         </section>
-        <section class="formBox bigF">
+        <section class="formBox bigF" v-if="base.subjectCssType == '2'">
           <span>题目图片</span>
           <div class="input-box">
             <small-imgs :attachment-data="base.attachment" :is-operate="true"
-                        :attachment-type="'subjectQustion'"></small-imgs>
+                        :attachment-type="'subjectQustion'"
+                        :img-num="imgNum"></small-imgs>
           </div>
         </section>
-        <section class="formBox bigF">
+        <section class="formBox bigF" v-if="base.subjectCssType == '1'">
           <span class="btn-color" @click="addAttachment">添加附件</span>
           <div class="input-box">
             <article-list :article-list="base.articleList" @deleteArticle="deleteArticle"
@@ -121,15 +112,17 @@ import util from '../../../../assets/common/util'
 import smallImgs from '../../../../components/common/small-imgs'
 import attachmentArticle from '../../../../components/common/attachment-article'
 import articleList from './articleList'
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
             base: {
+              subjectStatus: '0',
               subjectScenario: '1',
               subjectValue: '',
-              optionCSSType: '1',
-              sujectCSStype: '1',
-              tagCodes: [],
+              optionCssType: '1',
+              subjectCssType: '2',
+              subjectType: '1',
               subjectChooseType: '1',
               subjectSequence: '',
               subjectContent: '',
@@ -141,6 +134,7 @@ export default {
               },
               articleList: []
             },
+            imgNum: 9,
             selectList: {
               scenario: [
                 {
@@ -159,25 +153,25 @@ export default {
               sujectTypes: [
                 {
                   value: '1',
-                  key: '复杂样式'
+                  key: '文本+最多一个链接'
                 },
                 {
                   value: '2',
-                  key: '简单样式' // 文本+一张图片
+                  key: '文本+最多9张图片'
                 }
               ],
               optionTypes: [
                 {
                   value: '1',
-                  key: '复杂样式'
+                  key: '文本+最多一个链接'
                 },
                 {
                   value: '2',
-                  key: '简单文本'
+                  key: '文本+1张图片'
                 },
                 {
                   value: '3',
-                  key: '简单图片'
+                  key: '文本+最多9张图片'
                 }
               ],
               chooseTypes: [
@@ -188,15 +182,16 @@ export default {
                 {
                   value: '0',
                   key: '多选'
-                },
-                {
-                  value: '2',
-                  key: '单选可添加'
-                },
-                {
-                  value: '3',
-                  key: '多选可添加'
                 }
+                // ,
+                // {
+                //   value: '2',
+                //   key: '单选可添加'
+                // },
+                // {
+                //   value: '3',
+                //   key: '多选可添加'
+                // }
               ]
             },
             visibleData: {
@@ -205,46 +200,93 @@ export default {
         }
     },
     mounted () {
-      // this.getBase()
+      if (this.$route.query.subjectCode) {
+        this.getBase()
+      }
     },
     watch: {
       $route () {
-        // this.getBase()
+        if (this.$route.query.subjectCode) {
+          this.getBase()
+        }
+      }
+    },
+    computed: {
+      ...mapGetters({
+          userInfo: 'getUserInfo'
+      }),
+      isEdit () {
+        return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
       }
     },
     methods: {
         getBase () {
           util.request({
               method: 'get',
-              interface: 'selectSurveyInfo',
+              interface: 'subjectDetails',
               data: {
-                surveyCode: this.$route.query.surveyCode
+                subjectCode: this.$route.query.subjectCode
               }
           }).then(res => {
-              this.base = res.result.result
+              if (res.result.success == '1') {
+                this.base = res.result.result
+                this.$emit('hasBase', res.result.result)
+              } else {
+                this.$message.error(res.result.message)
+              }
           })
         },
         saveBase () {
-            if (!this.base.surveyTitle) {
+            if (!this.base.subjectScenario) {
                 this.$message({
-                    message: '请填写调研标题！',
+                    message: '请填写适用场景！',
                     type: 'warning'
                 })
                 return false
             }
+
+            if (!this.base.subjectValue) {
+                this.$message({
+                    message: '请填写题目分值！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.base.subjectContent) {
+                this.$message({
+                    message: '请填写题目内容！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            this.base.enterpriseCode = this.$route.query.enterpriseCode
             
             util.request({
                 method: 'post',
-                interface: 'manageSurveyInfo',
+                interface: 'manageSubjectInfo',
                 data: this.base
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.getBase()
-
                     this.$message({
                       type: 'success',
                       message: '保存成功!'
                     })
+
+                    if (!this.$route.query.subjectCode) {
+                      var pathUrl = {
+                        name: 'survey-detail',
+                        query: {
+                          enterpriseCode: this.$route.query.enterpriseCode,
+                          subjectCode: res.result.result
+                        }
+                      }
+
+                      this.$router.push(pathUrl)
+                    } else {
+                      this.getBase()
+                    }
                 } else {
                     this.$message.error(res.result.message)
                 }

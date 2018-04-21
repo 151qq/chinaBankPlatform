@@ -47,9 +47,14 @@
           暂无内容！！！
         </section>
 
-        <div class="more-load"
-                v-if="total && marketList.length < total"
-                @click="loadMore">加载更多...</div>
+        <el-pagination
+            v-if="total"
+            class="page-box"
+            @current-change="pageChange"
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :total="total">
+        </el-pagination>
 
         <el-dialog title="添加文章" :visible.sync="isAddItem">
           <el-form :label-position="'left'" :model="addItemForm" label-width="80px">
@@ -146,7 +151,7 @@ export default {
         searchItem () {
           this.getList()
         },
-        getList (type) {
+        getList () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageType: this.articleType,
@@ -171,11 +176,7 @@ export default {
 
                 this.total = Number(res.result.total)
                 this.isPage = true
-                if (!type) {
-                    this.marketList = res.result.result
-                } else {
-                    this.marketList = this.marketList.concat(res.result.result)
-                }
+                this.marketList = res.result.result
             })
         },
         changeStatus (item, type) {
@@ -272,8 +273,8 @@ export default {
                 }
             })
         },
-        loadMore () {
-            this.pageNumber++
+        pageChange (size) {
+            this.pageNumber = size
             this.getList('more')
         }
     },

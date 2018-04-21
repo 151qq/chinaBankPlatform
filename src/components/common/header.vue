@@ -7,7 +7,10 @@
         推广文章
       </router-link>
       <router-link :to="{ name: 'market',query:{enterpriseCode: userInfo.enterpriseCode}}">
-        营销方案
+        促销套圈
+      </router-link>
+      <router-link :to="{ name: 'game',query:{enterpriseCode: userInfo.enterpriseCode}}">
+        答题营销
       </router-link>
       <router-link :to="{ name: 'source',query:{enterpriseCode: userInfo.enterpriseCode}}">
         素材库
@@ -29,7 +32,7 @@
         礼品中心
       </router-link>
       <router-link :to="{ name: 'survey',query:{enterpriseCode: userInfo.enterpriseCode}}">
-        调研发布
+        题库列表
       </router-link>
       <!-- <router-link :to="{ name: 'cultivate',query:{enterpriseCode: userInfo.enterpriseCode}}">
         营销培训

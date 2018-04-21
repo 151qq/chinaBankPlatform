@@ -421,12 +421,17 @@
           <el-collapse-item class="float-form-box" title="文章模板" name="11">
               <template-list></template-list>
           </el-collapse-item>
+          <div class="line-bold"></div>
+          <el-collapse-item class="float-form-box" title="游戏模板" name="12">
+              <game-template></game-template>
+          </el-collapse-item>
         </el-collapse>
     </div>
 </template>
 <script>
 import util from '../../../assets/common/util'
 import templateList from './formAlist/templateList'
+import gameTemplate from './formAlist/gameTemplate'
 import upload from '../../../components/common/uploadFile'
 import { mapGetters } from 'vuex'
 export default {
@@ -686,6 +691,7 @@ export default {
     },
     components: {
       templateList,
+      gameTemplate,
       upload
     }
 }
