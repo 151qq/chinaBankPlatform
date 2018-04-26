@@ -418,11 +418,15 @@
                 <div class="clear"></div>
           </el-collapse-item>
           <div class="line-bold"></div>
-          <el-collapse-item class="float-form-box" title="文章模板" name="11">
+          <el-collapse-item class="float-form-box" title="营销推广渠道" name="11">
+              <spread-list></spread-list>
+          </el-collapse-item>
+          <div class="line-bold"></div>
+          <el-collapse-item class="float-form-box" title="文章模板" name="12">
               <template-list></template-list>
           </el-collapse-item>
           <div class="line-bold"></div>
-          <el-collapse-item class="float-form-box" title="游戏模板" name="12">
+          <el-collapse-item class="float-form-box" title="游戏模板" name="13">
               <game-template></game-template>
           </el-collapse-item>
         </el-collapse>
@@ -430,6 +434,7 @@
 </template>
 <script>
 import util from '../../../assets/common/util'
+import spreadList from './formAlist/spreadList'
 import templateList from './formAlist/templateList'
 import gameTemplate from './formAlist/gameTemplate'
 import upload from '../../../components/common/uploadFile'
@@ -690,9 +695,10 @@ export default {
         }
     },
     components: {
-      templateList,
-      gameTemplate,
-      upload
+        spreadList,
+        templateList,
+        gameTemplate,
+        upload
     }
 }
 </script>

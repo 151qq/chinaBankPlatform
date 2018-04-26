@@ -4,6 +4,27 @@
             <div class="formStylePro">
                 <div class="form-box">
                     <div class="clear"></div>
+                    <section class="block-title">基本配置</section>
+                    <section class="baseInput">
+                        <span>游戏壁纸</span>
+                        <div class="input-box">
+                            <upload :path="base.gameBigBg"
+                                    :is-operate="isEdit"
+                                    :bg-path="false"
+                                    @changeImg="changeImgBg"></upload>
+                        </div>
+                    </section>
+                    <section class="baseInput rightF">
+                        <span>过场动画</span>
+                        <div class="input-box">
+                            <upload :path="base.gameAnimateGif"
+                                    :is-operate="isEdit"
+                                    :bg-path="false"
+                                    @changeImg="changeImgTr"></upload>
+                        </div>
+                    </section>
+                    
+                    <div class="clear"></div>
                     <!-- 大标题样式 -->
                     <section class="block-title">标题样式</section>
                     <section class="baseInput">
@@ -128,30 +149,31 @@
                     </section>
                     <div class="clear"></div>
                     <!-- 按钮区域样式 -->
-                    <section class="block-title">按钮区域样式</section>
+                    <!-- <section class="block-title">第一按钮区域</section>
                     <section class="baseInput">
-                        <span>按钮排列样式</span>
-                        <el-select class="input-box"
-                                   v-model="base.btnFrameStyle"
-                                   name="investor"
-                                   placeholder="请选择">
-                            <el-option
-                                    v-for="(item, index) in btnFrameStyles"
-                                    :key="index"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>第一按钮文字</span>
+                        <span>按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.startBtnOneFont">
                         </el-input>
                     </section>
+                    <section class="baseInput rightF">
+                        <span>按钮背景色</span>
+                        <el-color-picker v-model="base.startBtnOneBackColor"></el-color-picker>
+                    </section>
                     <section class="baseInput">
-                        <span>第二按钮文字</span>
+                        <span>按钮文字颜色</span>
+                        <el-color-picker v-model="base.startBtnOneFontColor"></el-color-picker>
+                    </section>
+                    <section class="baseInput rightF">
+                        <span>按钮边框颜色</span>
+                        <el-color-picker v-model="base.startBtnOneBorderColor"></el-color-picker>
+                    </section>
+                    <div class="clear"></div> -->
+                    <!-- 按钮区域样式 -->
+                    <section class="block-title">按钮区域</section>
+                    <section class="baseInput">
+                        <span>按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.startBtnTwoFont">
@@ -159,15 +181,15 @@
                     </section>
                     <section class="baseInput rightF">
                         <span>按钮背景色</span>
-                        <el-color-picker v-model="base.startBtnBackColor"></el-color-picker>
+                        <el-color-picker v-model="base.startBtnTwoBackColor"></el-color-picker>
                     </section>
                     <section class="baseInput">
                         <span>按钮文字颜色</span>
-                        <el-color-picker v-model="base.startBtnFontColor"></el-color-picker>
+                        <el-color-picker v-model="base.startBtnTwoFontColor"></el-color-picker>
                     </section>
                     <section class="baseInput rightF">
                         <span>按钮边框颜色</span>
-                        <el-color-picker v-model="base.startBtnBorderColor"></el-color-picker>
+                        <el-color-picker v-model="base.startBtnTwoBorderColor"></el-color-picker>
                     </section>
                     <div class="clear"></div>
                 </div>
@@ -177,19 +199,24 @@
                 <div class="clear"></div>
             </div>
         </section>
-        <section class="right-content">
+        <section class="right-content" :style="gmBgBox">
             <div class="ar-title" :style="gmTitle">
-                标题，可以居中也可以居左，最多两行
+                达人挑战赛<br>
+                百万赢家就是你
             </div>
+            <div class="game-desc-box">游戏说明</div>
             <section class="ar-text-body" :style="gmContent">
-                <div style="text-align: center;">
-                    葡萄美酒夜光杯，欲饮琵琶马上催。 <br>
-                    醉卧沙场君莫笑，古来征战几人回？
-                </div>
+                消耗十积分后开进行比赛，进入比赛并取得比赛结果，根据最终的得分，赢得比赛奖金。<br>
+                答题越多月准确者得分越高，未答题或者答错不得分，但仍可答下一题。消耗十积分后开进行比赛，进入比赛并取得比赛结果。<br>
+                根据最终的得分，赢得比赛奖金。
             </section>
-            <section class="start-btn-box" :style="gmStartBtnBox">
-                <span :style="gmStartBtn">{{base.startBtnOneFont}}</span>
-                <span :style="gmStartBtn">{{base.startBtnTwoFont}}</span>
+            <section class="start-btn-box">
+                <!-- <span :style="gmStartBtnOne">
+                    {{base.startBtnOneFont}}
+                </span> -->
+                <span :style="gmStartBtnTwo">
+                    {{base.startBtnTwoFont}}
+                </span>
             </section>
         </section>
     </section>
@@ -205,28 +232,34 @@ export default {
         return {
             isOperate: true,
             base: {
-                titleBlockHeight: 76,
+                gameBigBg: '/static/images/game-bg.jpg',
+                gameAnimateGif: '',
+                gamePkAnimateGif: '',
+                titleBlockHeight: 88,
                 titleMaxInput: 30,
-                titleFontSize: 18,
-                titleLineHeight: 30,
+                titleFontSize: 30,
+                titleLineHeight: 44,
                 titleFontColor: '#000000',
                 titleFontStyle: 'normal',
-                titleAlignment: 'center',
-                titleTopHeight: 3,
+                titleAlignment: 'left',
+                titleTopHeight: 26,
 
                 fileTaxtMaxInput: 500,
-                fileFontSize: 14,
+                fileFontSize: 12,
                 fileTaxtLineHeight: 24,
                 fileFontType: 'normal',
-                fileBlcokTopHeight: 0,
-                fileBackground: '',
+                fileBlcokTopHeight: 12,
+                fileTaxtFontColor: '#7D7C81',
 
-                btnFrameStyle: 'row',
-                startBtnOneFont: '第一按钮',
-                startBtnTwoFont: '第二按钮',
-                startBtnBackColor: '#50D76D',
-                startBtnFontColor: '#ffffff',
-                startBtnBorderColor: '#50D76D'
+                startBtnOneFont: '找朋友PK',
+                startBtnTwoFont: '自我挑战',
+                startBtnOneBackColor: '#A6AFC4',
+                startBtnOneFontColor: '#ffffff',
+                startBtnOneBorderColor: '#A6AFC4',
+
+                startBtnTwoBackColor: '#2B2B41',
+                startBtnTwoFontColor: '#ffffff',
+                startBtnTwoBorderColor: '#2B2B41'
             },
             templateTypes: [],
             fontStyles: [
@@ -259,16 +292,6 @@ export default {
                 {
                     label: '两端对齐',
                     value: 'justify'
-                }
-            ],
-            btnFrameStyles: [
-                {
-                    label: '左右排列',
-                    value: 'row'
-                },
-                {
-                    label: '上下排列',
-                    value: 'column'
                 }
             ]
         }
@@ -305,6 +328,14 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        changeImgBg (data) {
+            this.base.gameBigBg = data.url
+            this.imgShowUrl = data.url
+        },
+        changeImgTr (data) {
+            this.base.gameAnimateGif = data.url
+            this.imgShowUrl = data.url
         }
     },
     components: {

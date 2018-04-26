@@ -140,7 +140,7 @@ export default {
           return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
         },
         descNum () {
-          return 500 - this.base.eventPlanDesc.length
+          return 140 - this.base.eventPlanDesc.length
         },
         pickerOptionsEnd () {
           var eventStartTime = this.base.eventStartTime

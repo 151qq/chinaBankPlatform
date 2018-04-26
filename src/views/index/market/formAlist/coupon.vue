@@ -1,11 +1,21 @@
 <template>
     <section class="discount-list-box">
-        <el-button class="add-btn" type="primary"
-                  icon="plus" size="small"
-                  v-if="base.eventStatus == '1' || base.eventStatus == '2'"
-                  @click="addQuan">
-          增加
-        </el-button>
+        <router-link target="_blank"
+                      v-if="base.eventStatus == '1' || base.eventStatus == '2'"
+                      class="add-btn"
+                            :to="{
+                                name: 'coupon',
+                                query: {
+                                  enterpriseCode: $route.query.enterpriseCode,
+                                  eventCode: $route.query.eventCode,
+                                  eventType: '1'
+                                }
+                            }">
+          <el-button class="add-btn" type="primary"
+                    icon="plus" size="small">
+            增加
+          </el-button>
+        </router-link>
         <el-table
           :data="couponData"
           border

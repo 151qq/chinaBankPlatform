@@ -7,33 +7,6 @@
                     <!-- 大标题样式 -->
                     <section class="block-title">个人信息</section>
                     <section class="baseInput">
-                        <span>失败鼓励</span>
-                        <el-input
-                                class="input-box"
-                                v-model="base.stopFailText">
-                        </el-input>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>胜利赞扬</span>
-                        <el-input
-                                class="input-box"
-                                v-model="base.stopSuccessText">
-                        </el-input>
-                    </section>
-                    <section class="baseInput">
-                        <span>结束语字号</span>
-                        <el-input
-                                class="input-box"
-                                type="number"
-                                :min="0"
-                                v-model="base.stopFontSize">
-                        </el-input>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>结束语颜色</span>
-                        <el-color-picker v-model="base.stopFontColor"></el-color-picker>
-                    </section>
-                    <section class="baseInput">
                         <span>个人信息行距</span>
                         <el-input
                                 class="input-box"
@@ -67,28 +40,28 @@
 
                     <section class="block-title">按钮区域样式</section>
                     <section class="baseInput">
-                        <span>第一按钮文字</span>
+                        <span>按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.stopBtnOneFont">
                         </el-input>
                     </section>
-                    <section class="baseInput rightF">
+                    <!-- <section class="baseInput rightF">
                         <span>第二按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.stopBtnTwoFont">
                         </el-input>
-                    </section>
-                    <section class="baseInput">
+                    </section> -->
+                    <section class="baseInput rightF">
                         <span>按钮背景色</span>
                         <el-color-picker v-model="base.stopBtnBackColor"></el-color-picker>
                     </section>
-                    <section class="baseInput rightF">
+                    <section class="baseInput">
                         <span>按钮文字颜色</span>
                         <el-color-picker v-model="base.stopBtnFontColor"></el-color-picker>
                     </section>
-                    <section class="baseInput">
+                    <section class="baseInput rightF">
                         <span>按钮边框颜色</span>
                         <el-color-picker v-model="base.stopBtnBorderColor"></el-color-picker>
                     </section>
@@ -119,14 +92,19 @@
 
             <section class="gmBodyArea">
                 <div class="money-box">
-                    您新增|消耗积分N分（总积分123450）
+                    您新增积分N分/<span>总积分123450</span>
                     <p>分享战绩可以获得更多积分</p>
                 </div>
 
-                <div class="honor-box">
-                    <img src="/static/images/art1.jpg">
-                </div>
+                <a class="honor-box">
+                    <span class="money-num">¥ 20</span>
+                    <span class="btn-font">
+                        <img src="../../../../assets/images/ticket-icon.png">
+                        领取奖励
+                    </span>
+                </a>
             </section>
+            
             <section class="bottom-btn-box">
                 <span :style="gmStopBtn">{{base.stopBtnOneFont}}</span>
                 <span :style="gmStopBtn">{{base.stopBtnTwoFont}}</span>
@@ -147,7 +125,7 @@ export default {
             base: {
                 stopFailText: '加油',
                 stopSuccessText: '恭喜',
-                stopPersonBg: '/static/images/art1.jpg',
+                stopPersonBg: '/static/images/person-bg.jpg',
                 stopPersonColor: '#ffffff',
                 stopFontSize: '16',
                 stopPersonLineHeight: '24',
@@ -155,9 +133,9 @@ export default {
                 stopFontColor: '#ffffff',
                 stopBtnOneFont: '继续闯关',
                 stopBtnTwoFont: '见好就收',
-                stopBtnBackColor: '#50D76D',
+                stopBtnBackColor: '#2B2B41',
                 stopBtnFontColor: '#ffffff',
-                stopBtnBorderColor: '#50D76D'
+                stopBtnBorderColor: '#2B2B41',
             }
         }
     },

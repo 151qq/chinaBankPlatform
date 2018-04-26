@@ -5,60 +5,57 @@
                 <div class="form-box">
                     <div class="clear"></div>
                     <!-- 大标题样式 -->
-                    <section class="block-title">个人信息</section>
+                    <section class="block-title">背景样式</section>
                     <section class="baseInput">
-                        <span>感谢支持</span>
-                        <el-input
-                                class="input-box"
-                                v-model="base.shareThanksText">
-                        </el-input>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>感谢支持字号</span>
-                        <el-input
-                                class="input-box"
-                                type="number"
-                                :min="0"
-                                v-model="base.shareThanksFontSize">
-                        </el-input>
-                    </section>
-                    <section class="baseInput">
-                        <span>感谢支持颜色</span>
-                        <el-color-picker v-model="base.shareThanksColor"></el-color-picker>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>个人信息行距</span>
-                        <el-input
-                                class="input-box"
-                                type="number"
-                                :min="0"
-                                v-model="base.sharePersonLineHeight">
-                        </el-input>
-                    </section>
-                    <section class="baseInput">
-                        <span>个人信息字号</span>
-                        <el-input
-                                class="input-box"
-                                type="number"
-                                :min="0"
-                                v-model="base.sharePersonFontSize">
-                        </el-input>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>个人信息字颜色</span>
-                        <el-color-picker v-model="base.sharePersonColor"></el-color-picker>
-                    </section>
-                    <section class="baseInput">
-                        <span>个人信息背景</span>
+                        <span>分享背景</span>
                         <div class="input-box">
-                            <upload :path="base.sharePersonBg"
+                            <upload :path="base.shareBigBg"
                                     :is-operate="isEdit"
                                     :bg-path="false"
-                                    @changeImg="changeImg"></upload>
+                                    @changeImg="changeImgBg"></upload>
                         </div>
                     </section>
 
-                    <section class="block-title">按钮区域样式</section>
+                    <div class="clear"></div>
+                    <!-- 大标题样式 -->
+                    <section class="block-title">内容样式</section>
+                    <section class="baseInput">
+                        <span>头像大小</span>
+                        <el-input
+                                class="input-box"
+                                type="number"
+                                :min="0"
+                                v-model="base.shareAttarHeight">
+                        </el-input>
+                    </section>
+                    <section class="baseInput rightF">
+                        <span>头像偏移</span>
+                        <el-input
+                                class="input-box"
+                                type="number"
+                                v-model="base.shareAttarMarginTop">
+                        </el-input>
+                    </section>
+                    <section class="baseInput">
+                        <span>称号背景</span>
+                        <div class="input-box">
+                            <upload :path="base.shareNameBg"
+                                    :is-operate="isEdit"
+                                    :bg-path="false"
+                                    @changeImg="changeImgName"></upload>
+                        </div>
+                    </section>
+                    <section class="baseInput rightF">
+                        <span>称号字体高度</span>
+                        <el-input
+                                class="input-box"
+                                type="number"
+                                :min="0"
+                                v-model="base.shareNameLineHeight">
+                        </el-input>
+                    </section>
+
+                    <!-- <section class="block-title">按钮区域样式</section>
                     <section class="baseInput">
                         <span>按钮文字</span>
                         <el-input
@@ -77,7 +74,7 @@
                     <section class="baseInput rightF">
                         <span>按钮边框颜色</span>
                         <el-color-picker v-model="base.shareBtnBorderColor"></el-color-picker>
-                    </section>
+                    </section> -->
                     <div class="clear"></div>
                 </div>
                 <el-button v-if="isEdit"
@@ -86,56 +83,39 @@
                 <div class="clear"></div>
             </div>
         </section>
-        <section class="right-content">
-            <div class="person-message-box" :style="sharePersonBgStyle">
-                <div class="person-box">
-                    <div class="attar-box">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div :style="sharePersonStyle">
-                        昵称<br>
-                        XXX大师<br>
-                        第27名（120890）<br>
-                    </div>
-                </div>
-                <div :style="shareFontStyle">
-                    {{base.shareThanksText}}
-                </div>
-            </div>
-
+        <section class="right-content" :style="shareBgBox">
             <section class="gmBodyArea">
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
+                <div class="share-box">
+                    <div class="share-title">
+                        <img src="/static/images/share-title.png">
                     </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称赠送500积分</span>
-                        <span class="comment-text">加油</span>
-
-                        <div class="comment-imgs">
-                            <img src="/static/images/art1.jpg">
-                            <img src="/static/images/art1.jpg">
+                    <div class="person-box">
+                        <div class="attar-box">
+                            <img class="bg-attar" src="/static/images/img-out.png">
+                            <img :style="shareAttarStyle" class="attar" src="/static/images/art1.jpg">
+                        </div>
+                        <div class="person">
+                            <div class="name-box">王小明</div>
+                            <div class="game-name" :style="shareNameBg">
+                                理财天才
+                            </div>
+                            <div class="user-num">
+                                <img src="../../../../assets/images/ranking-icon.png">
+                                <div class="num-box">27名</div>
+                                <div>/共12008名</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称</span>
-                        <span class="comment-text">加油加油加油加油加油</span>
-
-                        <div class="comment-imgs">
-                            <img src="/static/images/art1.jpg">
-                        </div>
+                    <div class="ewm-box">
+                        <img src="/static/images/ewm.png">
+                        <span>长按二维码进入游戏</span>
                     </div>
                 </div>
             </section>
-            <section class="bottom-btn-box">
+            <!-- <section class="bottom-btn-box">
                 <span :style="gmShareBtn">{{base.shareBtnFont}}</span>
-            </section>
+            </section> -->
         </section>
     </section>
 </template>
@@ -150,17 +130,11 @@ export default {
         return {
             isOperate: true,
             base: {
-                shareThanksText: '感谢支持',
-                shareThanksFontSize: '14',
-                shareThanksColor: '#ffffff',
-                sharePersonLineHeight: '24',
-                sharePersonFontSize: '14',
-                sharePersonColor: '#ffffff',
-                sharePersonBg: '/static/images/art1.jpg',
-                shareBtnFont: '我来挑战',
-                shareBtnBackColor: '#50D76D',
-                shareBtnFontColor: '#ffffff',
-                shareBtnBorderColor: '#50D76D'
+                shareBigBg: '/static/images/share-bg.jpg',
+                shareNameBg: '/static/images/name-bg.png',
+                shareNameLineHeight: '43',
+                shareAttarHeight: '75',
+                shareAttarMarginTop: '0'
             }
         }
     },
@@ -197,8 +171,11 @@ export default {
                 }
             })
         },
-        changeImg (data) {
-            this.base.sharePersonBg = data.url
+        changeImgBg (data) {
+            this.base.shareBigBg = data.url
+        },
+        changeImgName (data) {
+            this.base.shareAttarBg = data.url
         }
     },
     components: {

@@ -42,6 +42,10 @@ export default {
         deleteUser: platform + 'enterprise/deleteUser.json',
         selectUserInfoOfPage: platform + 'enterprise/selectUserInfoOfPage.json',
 
+        deleteOrganizeAdChannel: platform + 'organizeChannel/deleteOrganizeAdChannel.json',
+        getOrganizeAdChannelListByCode: platform + 'organizeChannel/getOrganizeAdChannelListByCode.json',
+        organizeAdChannelOperate: platform + 'organizeChannel/organizeAdChannelOperate.json',
+
         /**
         * 客服 get
         */
@@ -126,8 +130,9 @@ export default {
         manageCouponGroup: platform + 'couponGroup/manageCouponGroup.json',
         deleteCouponGroup: platform + 'couponGroup/deleteCouponGroup.json',
         couponGroupOfPage: platform + 'couponGroup/couponGroupPage.json',
-
-
+        publishEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
+        stopEvent: platform + 'eventInfo/stopEvent.json',
+        stopEventCoupon: platform + 'event/stopEvent.json',
 
         getGameInfoByCode: platform + 'game/getGameInfoByCode.json',
         getGameGateListByCode: platform + 'gamegate/getGameGateListByCode.json',
@@ -140,6 +145,11 @@ export default {
         gameTemplatechangeStatus: platform + 'gamesubjecttemplate/changeStatus.json',
         gamesubjecttemplateCreate: platform + 'gamesubjecttemplate/create.json',
         gameSubjectTemplateListt: platform + 'gamesubjecttemplate/gameSubjectTemplateList.json',
+        eventGameCreateCoupon: platform + 'eventInfo/eventInfoChangeStatusAndCreateCoupon.json',
+
+        eventpagemapCreate: platform + 'eventpagemap/create.json',
+        eventpagemapList: platform + 'eventpagemap/list.json',
+        eventpagemapDelete: platform + 'eventpagemap/deteled.json',
 
         /**
         * 推荐文章 get

@@ -2,13 +2,14 @@
     <section class="product-base-box">
       <div class="formDiscount">
         <section class="formBox bigF">
-            <span>方案名称</span>
-            <el-input
-              class="input-box"
-              placeholder="请输入内容,最多16个字"
-              :maxlength="16"
-              v-model="base.eventPlanTitle">
-            </el-input>
+            <span>游戏名称</span>
+            <div class="input-box">
+              <ueditor :editor-id="'gameTitle'"
+                      :editor-type="'text'"
+                      :index="'eventPlanTitle'"
+                      :content="base.eventPlanTitle"
+                      @setContent="setContent"></ueditor>
+            </div>
         </section>
         <section class="formBox">
             <span>生效时间</span>
@@ -64,18 +65,17 @@
                 v-model="base.eventSalesOpp"></el-input>
         </section>
         <section class="formBox bigF">
-            <span>活动方案</span>
-            <el-input
-              type="textarea"
-              :rows="4"
-              :maxlength="140"
-              placeholder="请输入内容,最多140字"
-              v-model="base.eventPlanDesc">
-            </el-input>
-            <div class="limit-box">剩余<a>{{descNum}}</a>字</div>
+            <span>游戏说明</span>
+            <div class="input-box">
+              <ueditor :editor-id="'gameDesc'"
+                      :editor-type="'text'"
+                      :index="'eventPlanDesc'"
+                      :content="base.eventPlanDesc"
+                      @setContent="setContent"></ueditor>
+            </div>
         </section>
         <section class="formBox">
-          <span>标准照片</span>
+          <span>游戏封面</span>
           <div class="input-box">
             <upload :path="base.eventPlanCover"
                     :bg-path="false"
@@ -91,6 +91,7 @@
 </template>
 <script>
 import util from '../../../../assets/common/util'
+import ueditor from '../../../../components/common/ueditor'
 import upload from '../../../../components/common/upload'
 import { mapGetters } from 'vuex'
 export default {
@@ -139,9 +140,6 @@ export default {
         isEdit () {
           return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
         },
-        descNum () {
-          return 500 - this.base.eventPlanDesc.length
-        },
         pickerOptionsEnd () {
           var eventStartTime = this.base.eventStartTime
 
@@ -163,6 +161,9 @@ export default {
       }
     },
     methods: {
+        setContent (data) {
+            this.base[data.index] = data.content
+        },
         getBase () {
           util.request({
               method: 'get',
@@ -194,7 +195,7 @@ export default {
         saveBase () {
             if (this.base.eventPlanTitle.trim() == '') {
                 this.$message({
-                    message: '请填写套券名称！',
+                    message: '请填写游戏名称！',
                     type: 'warning'
                 })
                 return false
@@ -289,7 +290,8 @@ export default {
         }
     },
     components: {
-      upload
+      upload,
+      ueditor
     }
 }
 </script>

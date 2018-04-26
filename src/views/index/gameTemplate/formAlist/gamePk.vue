@@ -15,15 +15,6 @@
                                     @changeImg="changeImgOne"></upload>
                         </div>
                     </section>
-                    <section class="baseInput rightF">
-                        <span>挑战者背景</span>
-                        <div class="input-box">
-                            <upload :path="base.pkPersonTwoBg"
-                                    :is-operate="isEdit"
-                                    :bg-path="false"
-                                    @changeImg="changeImgTwo"></upload>
-                        </div>
-                    </section>
 
                     <section class="block-title">按钮区域样式</section>
                     <section class="baseInput">
@@ -61,60 +52,60 @@
             </div>
         </section>
         <section class="right-content">
-            <div class="person-pk-box">
-                <div class="person-box" :style="pkPersonOneBgStyle">
+            <div class="person-pk-box" :style="pkPersonBgStyle">
+                <div class="person-box">
                     <div class="attar-box">
                         <img src="/static/images/art1.jpg">
                     </div>
+                    <div class="title-box">
+                        昵称
+                    </div>
                     <div class="message-box">
-                        昵称<br>
                         15分
                     </div>
                 </div>
-                <div class="person-box" :style="pkPersonTwoBgStyle">
+                <div class="money-box">
+                    押分10
+                </div>
+                <div class="person-box">
                     <div class="attar-box">
                         <img src="/static/images/art1.jpg">
                     </div>
-                    <div class="message-box">
-                        昵称<br>
-                        15分
+                    <div class="title-box">
+                        昵称
                     </div>
                 </div>
             </div>
 
             <section class="gmBodyArea">
-                <div class="money-box">
-                    押分10
-                </div>
-
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称赠送500积分</span>
-                        <span class="comment-text">加油</span>
-
-                        <div class="comment-imgs">
-                            <img src="/static/images/art1.jpg">
+                <section class="game-comment-box">
+                    <section class="comment-b">
+                        <div class="avatar-box">
                             <img src="/static/images/art1.jpg">
                         </div>
-                    </div>
-                </div>
-
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称</span>
-                        <span class="comment-text">加油加油加油加油加油</span>
-
-                        <div class="comment-imgs">
+                        <div class="content-box">
+                            <div class="title-box">
+                                <span class="title">昵称</span>
+                            </div>
+                            <div class="des-box">
+                                昵称赠送500积分
+                            </div>
+                        </div>
+                    </section>
+                    <section class="comment-b">
+                        <div class="avatar-box">
                             <img src="/static/images/art1.jpg">
                         </div>
-                    </div>
-                </div>
+                        <div class="content-box">
+                            <div class="title-box">
+                                <span class="title">昵称</span>
+                            </div>
+                            <div class="des-box">
+                                昵称赠送500积分
+                            </div>
+                        </div>
+                    </section>
+                </section>
             </section>
             <section class="bottom-btn-box">
                 <span :style="gmPkBtn">{{base.pkBtnOneFont}}</span>
@@ -134,13 +125,12 @@ export default {
         return {
             isOperate: true,
             base: {
-                pkPersonOneBg: '/static/images/art1.jpg',
-                pkPersonTwoBg: '/static/images/art1.jpg',
+                pkPersonOneBg: '/static/images/pk-bg.jpg',
                 pkBtnOneFont: '应战',
                 pkBtnTwoFont: '观战',
-                pkBtnBackColor: '#50D76D',
+                pkBtnBackColor: '#2B2B41',
                 pkBtnFontColor: '#ffffff',
-                pkBtnBorderColor: '#50D76D'
+                pkBtnBorderColor: '#2B2B41'
             }
         }
     },
@@ -179,9 +169,6 @@ export default {
         },
         changeImgOne (data) {
             this.base.pkPersonOneBg = data.url
-        },
-        changeImgTwo (data) {
-            this.base.pkPersonTwoBg = data.url
         }
     },
     components: {

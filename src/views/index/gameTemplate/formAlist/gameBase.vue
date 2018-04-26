@@ -55,7 +55,7 @@ export default {
         return {
             isOperate: true,
             base: {
-                gameBigBg: '',
+                gameBigBg: '/static/images/game-bg.jpg',
                 gameAnimateGif: '',
                 gamePkAnimateGif: ''
             },

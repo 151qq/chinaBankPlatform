@@ -6,12 +6,7 @@
 <script>
     export default {
         name: 'ueditor',
-        props: {
-            content: {type: String},
-            editorId: {type: String},
-            index: {type: Number},
-            editorType: {type: String}
-        },
+        props: ['content', 'editorId', 'index', 'editorType'],
         data () {
             return {
                 config: {
@@ -57,14 +52,13 @@
                 _this.$emit('setContent', data)
             })
         },
-        // watch: {
-        //     content () {
-        //         if (this.editor && this.isfirst) {
-        //             this.editor.setContent(this.content)
-        //             this.isfirst = false
-        //         }
-        //     }
-        // },
+        watch: {
+            content () {
+                if (this.editor && !this.editor.getContent()) {
+                    this.editor.setContent(this.content)
+                }
+            }
+        },
         destroyed() {
             this.editor.destroy();
         }

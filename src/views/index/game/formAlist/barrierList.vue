@@ -18,7 +18,7 @@
               v-model="item.gameGateName">
             </el-input>
           </section>
-          <section class="formBox rightF">
+          <section class="formBox">
               <span>关卡序号</span>
               <el-input type="number" class="input-box" size="small" :min="1"
                   v-model="item.gameGateSequence"></el-input>
@@ -28,7 +28,7 @@
               <el-input type="number" class="input-box" size="small" :min="15" :max="60"
                   v-model="item.gateTimeLimit"></el-input>
           </section>
-          <section class="formBox rightF">
+          <section class="formBox">
               <span>题目总数</span>
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.gateSubjectNumber"></el-input>
@@ -58,7 +58,7 @@
               <el-input type="number" class="input-box" size="small" :min="15" :max="60"
                   v-model="item.gatePassRate"></el-input>
           </section>
-          <section class="formBox rightF">
+          <section class="formBox">
               <span>挑战消耗积分</span>
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.gateConsumePoint"></el-input>
@@ -68,7 +68,7 @@
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.gateCheatNumber"></el-input>
           </section>
-          <section class="formBox rightF">
+          <section class="formBox">
               <span>作弊消耗积分</span>
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.cheatConsumePoint"></el-input>
@@ -89,26 +89,31 @@
               </el-select>
           </section>
 
+          <section class="formBox" v-if="item.gatePassIncentiveType == '1'">
+              <span>奖励卡券</span>
+              <el-select
+                class="input-box"
+                v-model="item.gatePassCoupon"
+                filterable
+                placeholder="请选择">
+                <el-option
+                  :key="index"
+                  :label="'无'"
+                  :value="''">
+                </el-option>
+                <el-option
+                  v-for="(coupon, index) in couponList"
+                  v-if="coupon.couponCode != item.gatePassCoupon && coupon.couponCode != item.gateFailCoupon"
+                  :label="coupon.couponTitle"
+                  :value="coupon.couponCode">
+                </el-option>
+              </el-select>
+          </section>
+
           <section class="formBox" v-if="item.gatePassIncentiveType == '0'">
               <span>奖励金额(元)</span>
               <el-input type="number" class="input-box" size="small" :min="15" :max="60"
                   v-model="item.gatePassCash"></el-input>
-          </section>
-          <section class="formBox" v-if="item.gatePassIncentiveType == '1'">
-              <span>奖励套券</span>
-              <el-select
-                class="input-box"
-                v-model="item.gatePassCoupons"
-                multiple
-                filterable
-                placeholder="请选择">
-                <el-option
-                  v-for="(item, index) in couponList"
-                  :key="index"
-                  :label="item.couponTitle"
-                  :value="item.couponCode">
-                </el-option>
-              </el-select>
           </section>
 
           <section class="formBox">
@@ -116,6 +121,7 @@
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.gatePassPoint"></el-input>
           </section>
+
           <section class="formBox">
               <span>失败安慰类型</span>
               <el-select
@@ -132,26 +138,31 @@
               </el-select>
           </section>
 
-          <section class="formBox" v-if="item.gateFailIncentiveType == '0'">
-              <span>安慰鼓励(元)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gateFailCash"></el-input>
-          </section>
           <section class="formBox" v-if="item.gateFailIncentiveType == '1'">
               <span>安慰鼓励</span>
               <el-select
                 class="input-box"
-                v-model="item.gateFailCoupons"
-                multiple
+                v-model="item.gateFailCoupon"
                 filterable
                 placeholder="请选择">
                 <el-option
-                  v-for="(item, index) in couponList"
                   :key="index"
-                  :label="item.couponTitle"
-                  :value="item.couponCode">
+                  :label="'无'"
+                  :value="''">
+                </el-option>
+                <el-option
+                  v-for="(coupon, index) in couponList"
+                  v-if="coupon.couponCode != item.gatePassCoupon && coupon.couponCode != item.gateFailCoupon"
+                  :label="coupon.couponTitle"
+                  :value="coupon.couponCode">
                 </el-option>
               </el-select>
+          </section>
+
+          <section class="formBox" v-if="item.gateFailIncentiveType == '0'">
+              <span>安慰鼓励(元)</span>
+              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
+                  v-model="item.gateFailCash"></el-input>
           </section>
 
           <section class="formBox">
@@ -159,7 +170,7 @@
               <el-input type="number" class="input-box" size="small" :min="0"
                   v-model="item.gateFailPoit"></el-input>
           </section>
-          <section class="formBox" v-if="item.gateFailIncentiveType == '1'">
+          <section class="formBox">
               <span>关卡题材</span>
               <el-select
                 class="input-box"
@@ -192,7 +203,27 @@
               v-model="item.gateFailNickname">
             </el-input>
           </section>
-          
+          <div class="clear"></div>
+          <section class="formBox">
+            <span>成功者徽章</span>
+            <div class="input-box">
+              <upload :path="item.gateFailImg"
+                      :bg-path="false"
+                      :is-operate="isEdit"
+                      :item-index="index"
+                      @changeImg="changeFailImg"></upload>
+            </div>
+          </section>
+          <section class="formBox">
+            <span>失败者徽章</span>
+            <div class="input-box">
+              <upload :path="item.gatePassImg"
+                      :bg-path="false"
+                      :is-operate="isEdit"
+                      :item-index="index"
+                      @changeImg="changePassImg"></upload>
+            </div>
+          </section>       
         </div>
         <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="danger" :plain="true" size="small" icon="delete2"
             @click="deleteBase(item, index)">删除</el-button>
@@ -258,6 +289,12 @@ export default {
         }
     },
     methods: {
+        changeFailImg (data) {
+          this.barrieList[data.index].gateFailImg = data.url
+        },
+        changePassImg (data) {
+          this.barrieList[data.index].gatePassImg = data.url
+        },
         getTags () {
             util.request({
                 method: 'get',
@@ -280,19 +317,6 @@ export default {
               }
           }).then(res => {
               if (res.result.success == '1') {
-                
-                if (res.result.result.length) {
-                  res.result.result.forEach((item) => {
-                    if (item.gatePassCoupon) {
-                      item.gatePassCoupons = item.passCoupon.couponCode.split(',')
-                    }
-
-                    if (item.gateFailCoupon) {
-                      item.gateFailCoupons = item.failCoupon.couponCode.split(',')
-                    }
-                  })
-                }
-
                 this.barrieList = res.result.result
               } else {
                 this.$message.error(res.result.message)
@@ -316,18 +340,18 @@ export default {
             gatePassIncentiveType: '1',
             gatePassCash: '',
             gatePassCoupon: '',
-            gatePassCoupons: [],
             gatePassPoint: '',
             gatePassNickname: '',
             gateFailIncentiveType: '1',
             gateFailCash: '',
             gateFailCoupon: '',
-            gateFailCoupons: [],
             gateFailPoit: '',
             gateSubjectTag: '',
             gateFailNickname: '',
             difficultSubjectRate: '',
-            subjectEasyRate: ''
+            subjectEasyRate: '',
+            gateFailImg: '',
+            gatePassImg: ''
           })
         },
         deleteBase (barrieData, index) {
@@ -406,9 +430,25 @@ export default {
                 return false
             }
 
+            if (barrieData.subjectEasyRate > barrieData.difficultSubjectRate) {
+                this.$message({
+                    message: '高分数必须大于低分数！',
+                    type: 'warning'
+                })
+                return false
+            }
+
             if (barrieData.gateEasySubjectNumber == '') {
                 this.$message({
                     message: '请填写低分题数！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gateSubjectNumber < barrieData.gateDifficultSubjectNumber + barrieData.gateEasySubjectNumber) {
+                this.$message({
+                    message: '题数数量分配不对！',
                     type: 'warning'
                 })
                 return false
@@ -454,7 +494,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gatePassIncentiveType == '0' && !barrieData.gatePassCoupons) {
+            if (barrieData.gatePassIncentiveType == '1' && !barrieData.gatePassCoupon) {
                 this.$message({
                     message: '请选择奖励套券！',
                     type: 'warning'
@@ -478,7 +518,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateFailIncentiveType == '0' && !barrieData.gateFailCoupons) {
+            if (barrieData.gateFailIncentiveType == '1' && !barrieData.gateFailCoupon) {
                 this.$message({
                     message: '请选择安慰套券！',
                     type: 'warning'
@@ -518,44 +558,30 @@ export default {
                 return false
             }
 
-            if (barrieData.gatePassCoupons.length) {
-              var passGroup = {
-                eventCode: this.$route.query.eventCode,
-                enterpriseCode: this.$route.query.enterpriseCode,
-                couponGroupName: barrieData.gameGateName,
-                couponGroupBeginTimestamp: Math.floor(new Date(this.base.eventStartTime).getTime()/1000),
-                couponGroupEndTimestamp: Math.floor(new Date(this.base.eventEndTime).getTime()/1000),
-                couponGroutScenario: 'questionGame',
-                couponGroupCover: this.base.eventPlanCover,
-                couponGroupIntro: '恭喜通关！',
-                couponCode: barrieData.gateFailCoupons.join(',')
-              }
-
-              if (barrieData.passGroup) {
-                barrieData.passGroup = Object.assign(barrieData.passGroup, passGroup)
-              } else {
-                barrieData.passGroup = passGroup
-              }
+            if (barrieData.gatePassIncentiveType == '3') {
+                barrieData.gatePassCoupon = ''
+                barrieData.gatePassCash = ''
             }
 
-            if (barrieData.gateFailCoupons.length) {
-              var failGroup = {
-                eventCode: this.$route.query.eventCode,
-                enterpriseCode: this.$route.query.enterpriseCode,
-                couponGroupName: barrieData.gameGateName,
-                couponGroupBeginTimestamp: Math.floor(new Date(this.base.eventStartTime).getTime()/1000),
-                couponGroupEndTimestamp: Math.floor(new Date(this.base.eventEndTime).getTime()/1000),
-                couponGroutScenario: 'questionGame',
-                couponGroupCover: this.base.eventPlanCover,
-                couponGroupIntro: '再接再厉！',
-                couponCode: barrieData.gateFailCoupons.join(',')
-              }
+            if (barrieData.gatePassIncentiveType == '0') {
+                barrieData.gatePassCoupon = ''
+            }
 
-              if (barrieData.failGroup) {
-                barrieData.failGroup = Object.assign(barrieData.failGroup, failGroup)
-              } else {
-                barrieData.failGroup = failGroup
-              }
+            if (barrieData.gatePassIncentiveType == '1') {
+                barrieData.gatePassCash = ''
+            }
+
+            if (barrieData.gateFailIncentiveType == '3') {
+                barrieData.gateFailCoupon = ''
+                barrieData.gateFailCash = ''
+            }
+
+            if (barrieData.gateFailIncentiveType == '0') {
+                barrieData.gateFailCoupon = ''
+            }
+
+            if (barrieData.gateFailIncentiveType == '1') {
+                barrieData.gateFailCash = ''
             }
             
             util.request({

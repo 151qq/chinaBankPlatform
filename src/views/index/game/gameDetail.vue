@@ -10,17 +10,22 @@
                 <el-collapse-item class="float-form-box" title="优惠券列表" name="1">
                     <coupon :base="baseData" @hasCoupon="hasCoupon"></coupon>
                 </el-collapse-item>
+
+                <div class="line-bold"></div>
+                <el-collapse-item class="float-form-box" title="活动推广文章" name="2">
+                    <form-article :base="baseData"></form-article>
+                </el-collapse-item>
             </template>
 
             <template v-if="baseData.eventCode">
                 <div class="line-bold"></div>
-                <el-collapse-item class="float-form-box" title="游戏基本配置" name="1">
-                    <game-base :base="baseData" @hasBase="hasGame"></game-base>
+                <el-collapse-item class="float-form-box" title="游戏基本配置" name="3">
+                    <game-base :base="baseData" @hasGame="hasGame"></game-base>
                 </el-collapse-item>
 
                 <template v-if="gameDetail.gameCode">
                     <div class="line-bold"></div>
-                    <el-collapse-item class="float-form-box" title="游戏关卡配置" name="2">
+                    <el-collapse-item class="float-form-box" title="游戏关卡配置" name="4">
                         <barrier-list :base="baseData" :coupon-list="couponList"
                                         :game-code="gameDetail.gameCode"></barrier-list>
                     </el-collapse-item>
@@ -34,6 +39,7 @@ import util from '../../../assets/common/util'
 import marketBase from './formAlist/marketBase'
 import gameBase from './formAlist/gameBase'
 import coupon from './formAlist/coupon'
+import formArticle from './formAlist/formArticle'
 import barrierList from './formAlist/barrierList'
 
 export default {
@@ -47,9 +53,9 @@ export default {
         }
     },
     mounted () {
-        var marketColl = localStorage.getItem("marketColl")
-        if (marketColl) {
-            this.activeNames = marketColl.split(',')
+        var gameColl = localStorage.getItem("gameColl")
+        if (gameColl) {
+            this.activeNames = gameColl.split(',')
         }
     },
     methods: {
@@ -63,13 +69,14 @@ export default {
             this.gameDetail = Object.assign({}, base)
         },
         collChange () {
-            localStorage.setItem("marketColl", this.activeNames)
+            localStorage.setItem("gameColl", this.activeNames)
         }
     },
     components: {
         marketBase,
         barrierList,
         coupon,
+        formArticle,
         gameBase
     }
 }

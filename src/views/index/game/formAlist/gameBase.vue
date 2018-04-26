@@ -12,6 +12,11 @@
                 v-model="game.gameNewCustomerPoint"></el-input>
         </section>
         <section class="formBox">
+            <span>初始积分</span>
+            <el-input type="number" class="input-box" size="small" :min="0"
+                v-model="game.gameInitPoint"></el-input>
+        </section>
+        <section class="formBox">
             <span>玩游戏条件</span>
             <el-select
               class="input-box"
@@ -26,7 +31,7 @@
               </el-option>
             </el-select>
         </section>
-        <section class="formBox">
+        <!-- <section class="formBox">
             <span>奖励累积规则</span>
             <el-select
               class="input-box"
@@ -40,7 +45,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-        </section>
+        </section> -->
         <section class="formBox">
             <span>冲关失败退回</span>
             <el-select
@@ -56,7 +61,7 @@
               </el-option>
             </el-select>
         </section>
-        <section class="formBox">
+        <!-- <section class="formBox">
             <span>PK有效阈值(%)</span>
             <el-input type="number" class="input-box" size="small" :min="0"
                 v-model="game.gamePkEffectiveRate"></el-input>
@@ -82,7 +87,7 @@
                 v-model="game.pkDifficultSubjectRate"></el-input>
         </section>
         <section class="formBox">
-            <span>低分题数</span>
+            <span>高分题数</span>
             <el-input type="number" class="input-box" size="small" :min="0"
                 v-model="game.pkGateDifficultSubjectNumber"></el-input>
         </section>
@@ -92,15 +97,10 @@
                 v-model="game.pkSubjectEasyRate"></el-input>
         </section>
         <section class="formBox">
-            <span>高分题数</span>
+            <span>低分题数</span>
             <el-input type="number" class="input-box" size="small" :min="0"
                 v-model="game.pkGateEasySubjectNumber"></el-input>
-        </section>
-        
-        
-        
-        
-        
+        </section> -->
         
       </div>
       <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="info" :plain="true" size="small" icon="document"
@@ -119,6 +119,7 @@ export default {
             game: {
                 gameSharePoint: '',
                 gameNewCustomerPoint: '',
+                gameInitPoint: '',
                 gameIncentiveAccumulateRule: '1',
                 gameFailureBack: '1',
                 gamePlayPrecondition: '1',
@@ -193,8 +194,8 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     if (res.result.result.length) {
-                        this.gameDetail = res.result.result[0]
-                        this.$emit('hasGame', this.gameDetail)
+                        this.game = res.result.result[0]
+                        this.$emit('hasGame', this.game)
                     }
                 } else {
                     this.$message.error(res.result.message)
@@ -218,71 +219,78 @@ export default {
                 return false
             }
 
-            
-            if (this.game.gamePkEffectiveRate == '') {
+            if (this.game.gameInitPoint == '') {
                 this.$message({
-                    message: '请填写PK有效阈值！',
+                    message: '请填写初始积分！',
                     type: 'warning'
                 })
                 return false
             }
 
-            if (this.game.gamePkMinBet == '') {
-                this.$message({
-                    message: '请填写PK最少押分！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.gamePkEffectiveRate == '') {
+            //     this.$message({
+            //         message: '请填写PK有效阈值！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
-            if (this.game.gamePkTime == '') {
-                this.$message({
-                    message: '请填写PK赛时间！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.gamePkMinBet == '') {
+            //     this.$message({
+            //         message: '请填写PK最少押分！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
-            if (this.game.gamePkSubjectNumber == '') {
-                this.$message({
-                    message: '请填写PK赛目总数！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.gamePkTime == '') {
+            //     this.$message({
+            //         message: '请填写PK赛时间！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
-            if (this.game.pkDifficultSubjectRate == '') {
-                this.$message({
-                    message: '请填写题目高于分值！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.gamePkSubjectNumber == '') {
+            //     this.$message({
+            //         message: '请填写PK赛目总数！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
-            if (this.game.pkGateDifficultSubjectNumber == '') {
-                this.$message({
-                    message: '请填写高分题数目！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.pkDifficultSubjectRate == '') {
+            //     this.$message({
+            //         message: '请填写题目高于分值！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
+
+            // if (this.game.pkGateDifficultSubjectNumber == '') {
+            //     this.$message({
+            //         message: '请填写高分题数目！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
 
-            if (this.game.pkSubjectEasyRate == '') {
-                this.$message({
-                    message: '请填写题目低于分值！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.pkSubjectEasyRate == '') {
+            //     this.$message({
+            //         message: '请填写题目低于分值！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
-            if (this.game.pkGateEasySubjectNumber == '') {
-                this.$message({
-                    message: '请填写低分题数目！',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (this.game.pkGateEasySubjectNumber == '') {
+            //     this.$message({
+            //         message: '请填写低分题数目！',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
             this.game.enterpriseCode = this.$route.query.enterpriseCode
             this.game.eventCode = this.$route.query.eventCode

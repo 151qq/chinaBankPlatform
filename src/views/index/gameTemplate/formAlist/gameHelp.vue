@@ -54,41 +54,46 @@
                         <span class="user-name">昵称</span>
                         <span class="user-text">大家帮帮我呀</span>
                     </div>
+                    <div class="user-info">
+                        <img src="../../../../assets/images/ranking-icon.png">
+                        <div class="user-num">27名</div>
+                        <div>/共22333名</div>
+                    </div>
                 </div>
                 <div class="user-data-box">
-                    <img src="/static/images/art1.jpg">
+                    90%
                 </div>
             </div>
 
             <section class="gmBodyArea">
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称赠送500积分</span>
-                        <span class="comment-text">加油</span>
-
-                        <div class="comment-imgs">
-                            <img src="/static/images/art1.jpg">
+                <section class="game-comment-box">
+                    <section class="comment-b">
+                        <div class="avatar-box">
                             <img src="/static/images/art1.jpg">
                         </div>
-                    </div>
-                </div>
-
-                <div class="comment-box">
-                    <div class="comment-attar">
-                        <img src="/static/images/art1.jpg">
-                    </div>
-                    <div class="comment-content">
-                        <span class="comment-name">昵称</span>
-                        <span class="comment-text">加油加油加油加油加油</span>
-
-                        <div class="comment-imgs">
+                        <div class="content-box">
+                            <div class="title-box">
+                                <span class="title">昵称</span>
+                            </div>
+                            <div class="des-box">
+                                昵称赠送500积分
+                            </div>
+                        </div>
+                    </section>
+                    <section class="comment-b">
+                        <div class="avatar-box">
                             <img src="/static/images/art1.jpg">
                         </div>
-                    </div>
-                </div>
+                        <div class="content-box">
+                            <div class="title-box">
+                                <span class="title">昵称</span>
+                            </div>
+                            <div class="des-box">
+                                昵称赠送500积分
+                            </div>
+                        </div>
+                    </section>
+                </section>
             </section>
             <section class="bottom-btn-box">
                 <span :style="gmHelpBtn">{{base.helpBtnFont}}</span>
@@ -107,11 +112,11 @@ export default {
         return {
             isOperate: true,
             base: {
-                helpPersonBg: '/static/images/art1.jpg',
+                helpPersonBg: '/static/images/person-bg.jpg',
                 helpBtnFont: '我来助威',
-                helpBtnBackColor: '#50D76D',
+                helpBtnBackColor: '#2B2B41',
                 helpBtnFontColor: '#ffffff',
-                helpBtnBorderColor: '#50D76D'
+                helpBtnBorderColor: '#2B2B41'
             }
         }
     },

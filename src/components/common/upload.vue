@@ -78,6 +78,9 @@ export default {
         }
         this.selectData.isShow = false
         this.dialogVisible = false
+        if (this.isAuto) {
+
+        }
         this.$emit('changeImg', data)
       },
       postImg (e) {

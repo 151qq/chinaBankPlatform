@@ -310,12 +310,12 @@ const routers = [
             path: '',
             name: 'market',
             component (resolve) {
-              require.ensure(['./market/marketList.vue'], () => {
-                resolve(require('./market/marketList.vue'))
+              require.ensure(['./market/market.vue'], () => {
+                resolve(require('./market/market.vue'))
               })
             },
             meta: {
-              title: '促销套券'
+              title: '营销活动'
             }
           },
           {
@@ -328,32 +328,7 @@ const routers = [
               })
             },
             meta: {
-              title: '促销套券'
-            }
-          }
-        ]
-      },
-
-      {
-        // 答题营销
-        path: 'game',
-        component (resolve) {
-          require.ensure(['./game/main.vue'], () => {
-            resolve(require('./game/main.vue'))
-          })
-        },
-        children: [
-          {
-            // 答题营销
-            path: '',
-            name: 'game',
-            component (resolve) {
-              require.ensure(['./game/gameList.vue'], () => {
-                resolve(require('./game/gameList.vue'))
-              })
-            },
-            meta: {
-              title: '答题营销'
+              title: '促销活动'
             }
           },
           {
@@ -366,12 +341,11 @@ const routers = [
               })
             },
             meta: {
-              title: '答题营销'
+              title: '吸粉活动'
             }
           }
         ]
       },
-      
       {
         // 券
         path: 'coupon',

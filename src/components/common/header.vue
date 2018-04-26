@@ -7,10 +7,7 @@
         推广文章
       </router-link>
       <router-link :to="{ name: 'market',query:{enterpriseCode: userInfo.enterpriseCode}}">
-        促销套圈
-      </router-link>
-      <router-link :to="{ name: 'game',query:{enterpriseCode: userInfo.enterpriseCode}}">
-        答题营销
+        营销活动
       </router-link>
       <router-link :to="{ name: 'source',query:{enterpriseCode: userInfo.enterpriseCode}}">
         素材库

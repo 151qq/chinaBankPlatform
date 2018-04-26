@@ -1,5 +1,12 @@
 export default {
     computed: {
+        gmBgBox () {
+            var styleData = {
+                'background-image': 'url(' + this.base.gameBigBg + ')'
+            }
+
+            return styleData
+        },
         gmBody () {
             var styleData = {
                 'height': '100%',
@@ -13,8 +20,8 @@ export default {
         gmTitle () {
             var styleData = {
                 'display': 'block',
-                'padding': '0 15px',
-                'box-sizing': 'border-box',
+                'padding': '0 30px',
+                'box-sizing': 'content-box',
                 'overflow': 'hidden',
                 'height': this.base.titleBlockHeight + 'px',
                 'font-size': this.base.titleFontSize + 'px',
@@ -31,7 +38,7 @@ export default {
             var styleData = {
                 'flex': '1',
                 'display': 'block',
-                'padding': '15px',
+                'padding': '0 30px',
                 'box-sizing': 'border-box',
                 'overflow': 'auto',
                 'font-size': this.base.fileFontSize + 'px',
@@ -42,42 +49,41 @@ export default {
 
             return styleData
         },
-        gmStartBtnBox () {
+        gmStartBtnOne () {
             var styleData = {
-                'width': '100%',
-                'display': 'flex',
+                'display': 'block',
+                'height': '42px',
+                'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': this.base.fileFontSize + 'px',
-                'color': this.base.fileTaxtFontColor,
-                'line-height': this.base.fileTaxtLineHeight + 'px',
-                'flex-direction': this.base.btnFrameStyle
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
+                'cursor': 'pointer',
+                'color': this.base.startBtnOneFontColor,
+                'background-color': this.base.startBtnOneBackColor,
+                'border': '1px solid ' + this.base.startBtnOneBorderColor,
+                'width': '70%',
+                'margin-bottom': '20px'
             }
 
             return styleData
         },
-        gmStartBtn () {
+        gmStartBtnTwo () {
             var styleData = {
                 'display': 'block',
-                'height': '40px',
+                'height': '42px',
                 'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': '14px',
-                'line-height': '40px',
-                'border-radius': '5px',
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
                 'cursor': 'pointer',
-                'color': this.base.startBtnFontColor,
-                'background-color': this.base.startBtnBackColor,
-                'border': '1px solid ' + this.base.startBtnBorderColor
-            }
-
-            if (this.base.btnFrameStyle == 'row') {
-                styleData['width'] = '46%'
-                styleData['margin'] = '5px 2%'
-            } else {
-                styleData['width'] = '96%'
-                styleData['margin'] = '0 2% 5px'
+                'color': this.base.startBtnTwoFontColor,
+                'background-color': this.base.startBtnTwoBackColor,
+                'border': '1px solid ' + this.base.startBtnTwoBorderColor,
+                'width': '70%'
             }
 
             return styleData
@@ -153,16 +159,16 @@ export default {
         },
         gmStopBtn () {
             var styleData = {
-                'width': '46%',
-                'height': '40px',
+                'flex': '1',
+                'height': '42px',
                 'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': '14px',
-                'line-height': '40px',
-                'border-radius': '5px',
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
                 'cursor': 'pointer',
-                'margin': '5px 2%',
+                'margin': '5px 10px',
                 'color': this.base.stopBtnFontColor,
                 'background-color': this.base.stopBtnBackColor,
                 'border': '1px solid ' + this.base.stopBtnBorderColor
@@ -200,6 +206,30 @@ export default {
 
             return styleData
         },
+        shareBgBox () {
+            var styleData = {
+                'background-image': 'url(' + this.base.shareBigBg + ')'
+            }
+
+            return styleData
+        },
+        shareNameBg () {
+            var styleData = {
+                'background-image': 'url(' + this.base.shareNameBg + ')',
+                'line-height': this.base.shareNameLineHeight + 'px'
+            }
+
+            return styleData
+        },
+        shareAttarStyle () {
+            var styleData = {
+                'width': this.base.shareAttarHeight + 'px',
+                'height': this.base.shareAttarHeight + 'px',
+                'margin-top': this.base.shareAttarMarginTop + 'px'
+            }
+
+            return styleData
+        },
         sharePersonBgStyle () {
             var styleData = {
                 'background-image': 'url(' + this.base.sharePersonBg + ')'
@@ -232,16 +262,16 @@ export default {
         },
         gmShareBtn () {
             var styleData = {
-                'width': '96%',
-                'height': '40px',
+                'flex': '1',
+                'height': '42px',
                 'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': '14px',
-                'line-height': '40px',
-                'border-radius': '5px',
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
                 'cursor': 'pointer',
-                'margin': '5px 2%',
+                'margin': '5px 10px',
                 'color': this.base.shareBtnFontColor,
                 'background-color': this.base.shareBtnBackColor,
                 'border': '1px solid ' + this.base.shareBtnBorderColor
@@ -258,16 +288,16 @@ export default {
         },
         gmHelpBtn () {
             var styleData = {
-                'width': '96%',
-                'height': '40px',
+                'width': '100%',
+                'height': '42px',
                 'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': '14px',
-                'line-height': '40px',
-                'border-radius': '5px',
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
                 'cursor': 'pointer',
-                'margin': '5px 2%',
+                'margin': '5px 10px',
                 'color': this.base.helpBtnFontColor,
                 'background-color': this.base.helpBtnBackColor,
                 'border': '1px solid ' + this.base.helpBtnBorderColor
@@ -275,32 +305,25 @@ export default {
 
             return styleData
         },
-        pkPersonOneBgStyle () {
+        pkPersonBgStyle () {
             var styleData = {
                 'background-image': 'url(' + this.base.pkPersonOneBg + ')'
             }
 
             return styleData
         },
-        pkPersonTwoBgStyle () {
-            var styleData = {
-                'background-image': 'url(' + this.base.pkPersonTwoBg + ')'
-            }
-
-            return styleData
-        },
         gmPkBtn () {
             var styleData = {
-                'width': '46%',
-                'height': '40px',
+                'flex': '1',
+                'height': '42px',
                 'text-align': 'center',
                 'box-sizing': 'border-box',
                 'overflow': 'hidden',
-                'font-size': '14px',
-                'line-height': '40px',
-                'border-radius': '5px',
+                'font-size': '16px',
+                'line-height': '42px',
+                'border-radius': '3px',
                 'cursor': 'pointer',
-                'margin': '5px 2%',
+                'margin': '5px 10px',
                 'color': this.base.pkBtnFontColor,
                 'background-color': this.base.pkBtnBackColor,
                 'border': '1px solid ' + this.base.pkBtnBorderColor

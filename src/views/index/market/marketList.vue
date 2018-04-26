@@ -1,16 +1,20 @@
 <template>
     <div class="market-list-box duan-list-box">
-        <div class="input-box">
-            <input
-                placeholder="请输入需查询条件"
-                v-model="keyValue"
-                @keyup.13="searchItem"
-                class="input-search">
-            <el-button class="search-btn" type="primary" icon="search" @click="searchItem">
-              搜索
-            </el-button>
-
-            <el-button class="add-new-btn" type="primary" icon="plus" @click="addItem">增加</el-button>
+        <div class="btn-input-box">
+            <router-link target="_blank"
+                            class="add-new-btn"
+                            :to="{
+                                name: 'market-detail',
+                                query: {
+                                    enterpriseCode: this.$route.query.enterpriseCode
+                                }
+                            }">
+                <el-button  class="add-new-btn"
+                            type="primary"
+                           icon="plus">
+                    增加
+                </el-button>
+            </router-link>
         </div>
         <section class="big-cards-box">
             <router-link class="card-box"
@@ -32,9 +36,14 @@
                     </div>
                 </div>
                 <section class="card-btns">
-                    <i class="el-icon-delete2"
-                        v-if="item.eventStatus == '1'"
-                        @click.prevent="deleteItemByCode(item)"></i>
+                    <el-button v-if="item.eventStatus == '1' || item.eventStatus == '2'" type="danger" :plain="true" size="small"
+                        @click.prevent="deleteItemByCode(item)">删除</el-button>
+
+                    <el-button v-if="item.eventStatus == '1' || item.eventStatus == '2'" type="info" :plain="true" size="small"
+                        @click.prevent="submitItemByCode(item)">发布</el-button>
+
+                    <el-button v-if="item.eventStatus == '3'" type="info" :plain="true" size="small"
+                        @click.prevent="stopItemByCode(item)">终止</el-button>
                 </section>
             </router-link>
         </section>
@@ -128,6 +137,48 @@ export default {
               }
             })
         },
+        submitItemByCode (item) {
+            util.request({
+              method: 'post',
+              interface: 'publishEvent',
+              data: {
+                eventCode: item.eventCode,
+                enterpriseCode: this.$route.query.enterpriseCode
+              }
+            }).then(res => {
+              if (res.result.success == '1') {
+                this.getList()
+
+                this.$message({
+                  type: 'success',
+                  message: '发布成功!'
+                })
+              } else {
+                this.$message.error(res.result.message)
+              }
+            })
+        },
+        stopItemByCode (item) {
+            util.request({
+              method: 'post',
+              interface: 'stopEventCoupon',
+              data: {
+                eventCode: item.eventCode,
+                enterpriseCode: this.$route.query.enterpriseCode
+              }
+            }).then(res => {
+              if (res.result.success == '1') {
+                this.getList()
+
+                this.$message({
+                  type: 'success',
+                  message: '终止成功!'
+                })
+              } else {
+                this.$message.error(res.result.message)
+              }
+            })
+        },
         addItem () {
             var pathUrl = {
               name: 'market-detail',
@@ -147,7 +198,6 @@ export default {
 </script>
 <style lang="scss">
 .market-list-box {
-    width: 1000px;
-    margin: 80px auto 30px;
+    margin: auto;
 }
 </style>
