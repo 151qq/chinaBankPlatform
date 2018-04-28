@@ -28,7 +28,13 @@
                     }}">
         礼品中心
       </router-link>
-      <router-link :to="{ name: 'survey',query:{enterpriseCode: userInfo.enterpriseCode}}">
+      <router-link v-if="isSubject || isRoot"
+                  :to="{ 
+                    name: 'survey',
+                    query: {
+                      enterpriseCode: userInfo.enterpriseCode
+                    }
+                  }">
         题库列表
       </router-link>
       <!-- <router-link :to="{ name: 'cultivate',query:{enterpriseCode: userInfo.enterpriseCode}}">
@@ -98,6 +104,9 @@ export default {
       },
       isConfig () {
         return this.roleCodes.indexOf('enterprise_config_admin') > -1
+      },
+      isSubject () {
+        return this.roleCodes.indexOf('platform_subject_admin') > -1 || this.roleCodes.indexOf('enterprise_subject_admin')
       }
   },
   methods: {

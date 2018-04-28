@@ -130,9 +130,9 @@ export default {
         manageCouponGroup: platform + 'couponGroup/manageCouponGroup.json',
         deleteCouponGroup: platform + 'couponGroup/deleteCouponGroup.json',
         couponGroupOfPage: platform + 'couponGroup/couponGroupPage.json',
-        publishEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
-        stopEvent: platform + 'eventInfo/stopEvent.json',
-        stopEventCoupon: platform + 'event/stopEvent.json',
+        publishEvent: platform + 'event/eventInfoChangeStatusAndCreateCouponGroup.json',
+        stopEvent: platform + 'event/stopEvent.json',
+        stopEventCoupon: platform + 'event/stopEventGroup.json',
 
         getGameInfoByCode: platform + 'game/getGameInfoByCode.json',
         getGameGateListByCode: platform + 'gamegate/getGameGateListByCode.json',
@@ -145,11 +145,18 @@ export default {
         gameTemplatechangeStatus: platform + 'gamesubjecttemplate/changeStatus.json',
         gamesubjecttemplateCreate: platform + 'gamesubjecttemplate/create.json',
         gameSubjectTemplateListt: platform + 'gamesubjecttemplate/gameSubjectTemplateList.json',
-        eventGameCreateCoupon: platform + 'eventInfo/eventInfoChangeStatusAndCreateCoupon.json',
+        eventGameCreateCoupon: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
 
         eventpagemapCreate: platform + 'eventpagemap/create.json',
         eventpagemapList: platform + 'eventpagemap/list.json',
         eventpagemapDelete: platform + 'eventpagemap/deteled.json',
+        exportCouponLog: platform + 'gamesubjectpoint/export.json',
+
+        articlereading: platform + 'count/article.json',
+        followusers: platform + 'count/followusers.json',
+        gameusers: platform + 'count/gameusers.json',
+        gateusers: platform + 'count/gateusers.json',
+        gamescoreshare: platform + 'count/gamescoreshare.json',
 
         /**
         * 推荐文章 get

@@ -10,11 +10,6 @@
                 <el-collapse-item class="float-form-box" title="优惠券列表" name="1">
                     <coupon :base="baseData" @hasCoupon="hasCoupon"></coupon>
                 </el-collapse-item>
-
-                <div class="line-bold"></div>
-                <el-collapse-item class="float-form-box" title="活动推广文章" name="2">
-                    <form-article :base="baseData"></form-article>
-                </el-collapse-item>
             </template>
 
             <template v-if="baseData.eventCode">
@@ -30,6 +25,11 @@
                                         :game-code="gameDetail.gameCode"></barrier-list>
                     </el-collapse-item>
                 </template>
+
+                <div class="line-bold"></div>
+                <el-collapse-item class="float-form-box" title="活动推广文章" name="2">
+                    <form-article :base="baseData"></form-article>
+                </el-collapse-item>
             </template>
         </el-collapse>    
     </div>

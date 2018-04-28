@@ -11,6 +11,7 @@
                             <upload :path="base.gameBigBg"
                                     :is-operate="isEdit"
                                     :bg-path="false"
+                                    :id-name="'gameBigBg'"
                                     @changeImg="changeImgBg"></upload>
                         </div>
                     </section>
@@ -20,6 +21,7 @@
                             <upload :path="base.gameAnimateGif"
                                     :is-operate="isEdit"
                                     :bg-path="false"
+                                    :id-name="'gameAnimateGif'"
                                     @changeImg="changeImgTr"></upload>
                         </div>
                     </section>

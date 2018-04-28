@@ -20,8 +20,10 @@ export default {
           }
         },
         grid: {
-          left: '6%',
-          right: '0%'
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
         },
         legend: {
           right: 0,
@@ -31,48 +33,9 @@ export default {
           data: []
         },
         yAxis: {
-          type: 'value',
-          min: 0,
-          axisLabel: {
-            formatter: '{value}',
-            textStyle: {
-              color: '#999'
-            }
-          },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          }
+          type: 'value'
         },
         series: []
-      },
-      colors: ['#1563CA', '#50E3C2', '#F8E71C'],
-      barStyle: {
-        type: 'bar',
-        itemStyle: {
-          normal: {
-            color: new echarts.graphic.LinearGradient(
-              0, 0, 0, 1,
-              [
-                {offset: 0, color: '#83bff6'},
-                {offset: 0.5, color: '#188df0'},
-                {offset: 1, color: '#188df0'}
-              ]
-            )
-          },
-          emphasis: {
-            color: new echarts.graphic.LinearGradient(
-              0, 0, 0, 1,
-              [
-                {offset: 0, color: '#2378f7'},
-                {offset: 0.7, color: '#2378f7'},
-                {offset: 1, color: '#83bff6'}
-              ]
-            )
-          }
-        }
       },
       pageInfo: {}
     }
@@ -87,56 +50,40 @@ export default {
       // 设置legend
       this.option.legend.data = datas.legend
       // 设置横轴数据
-      if (datas.xAxis) {
-        this.option.xAxis.data = datas.xAxis
+      if (datas.xAxisData) {
+        this.option.xAxis.data = datas.xAxisData
       } else {
         this.option.xAxis = {
-          type: 'value',
-          min: 0,
-          axisLabel: {
-            formatter: '{value}',
-            textStyle: {
-              color: '#999'
-            }
-          },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          }
+          type: 'value'
         }
 
         var dataObj = {
           type: 'category',
-          data: datas.yAxis
+          data: datas.yAxisData
         }
         this.option.yAxis = dataObj
       }
       
       // 设置纵轴数据
-      this.option.series = [].concat(this.setStyle(datas.seriesLine, 'lineStyle', this.colors), this.setStyle(datas.seriesBar, 'barStyle'))
+      this.option.series = this.setStyle(datas.series)
 
       this.drawEchart()
     },
-    setStyle (arrs, type, colors) {
+    setStyle (arrs) {
       if (!arrs) {
         return []
       }
       var arrList = arrs.map((item, index) => {
-        if (colors) {
-          var itemStyle = {
-            type: 'line',
-            itemStyle: {
-              normal: {
-                color: colors[index]
-              }
+        item.label = {
+            normal: {
+                show: true,
+                position: 'insideRight'
             }
-          }
-          return Object.assign(item, itemStyle)
         }
-        return Object.assign(item, this[type])
+        item.stack = '总量'
+        return item
       })
+
       return arrList
     },
     drawEchart () {
@@ -156,7 +103,7 @@ export default {
 <style lang="scss">
   .echar-box {
     width: 100%;
-    height: 350px;
+    height: 560px;
     box-sizing: border-box;
   }
 </style>

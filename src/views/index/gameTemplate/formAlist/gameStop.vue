@@ -40,28 +40,28 @@
 
                     <section class="block-title">按钮区域样式</section>
                     <section class="baseInput">
-                        <span>按钮文字</span>
+                        <span>第一按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.stopBtnOneFont">
                         </el-input>
                     </section>
-                    <!-- <section class="baseInput rightF">
+                    <section class="baseInput rightF">
                         <span>第二按钮文字</span>
                         <el-input
                                 class="input-box"
                                 v-model="base.stopBtnTwoFont">
                         </el-input>
-                    </section> -->
-                    <section class="baseInput rightF">
+                    </section>
+                    <section class="baseInput">
                         <span>按钮背景色</span>
                         <el-color-picker v-model="base.stopBtnBackColor"></el-color-picker>
                     </section>
-                    <section class="baseInput">
+                    <section class="baseInput rightF">
                         <span>按钮文字颜色</span>
                         <el-color-picker v-model="base.stopBtnFontColor"></el-color-picker>
                     </section>
-                    <section class="baseInput rightF">
+                    <section class="baseInput">
                         <span>按钮边框颜色</span>
                         <el-color-picker v-model="base.stopBtnBorderColor"></el-color-picker>
                     </section>

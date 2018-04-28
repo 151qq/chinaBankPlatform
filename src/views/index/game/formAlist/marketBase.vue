@@ -3,13 +3,12 @@
       <div class="formDiscount">
         <section class="formBox bigF">
             <span>游戏名称</span>
-            <div class="input-box">
-              <ueditor :editor-id="'gameTitle'"
-                      :editor-type="'text'"
-                      :index="'eventPlanTitle'"
-                      :content="base.eventPlanTitle"
-                      @setContent="setContent"></ueditor>
-            </div>
+            <el-input
+              class="input-box"
+              placeholder="请输入内容,最多16个字"
+              :maxlength="16"
+              v-model="base.eventPlanTitle">
+            </el-input>
         </section>
         <section class="formBox">
             <span>生效时间</span>
@@ -84,6 +83,20 @@
           </div>
         </section>
       </div>
+      <router-link class="save-btn"
+                  target="_blank"
+                  :to="{
+                    name: 'game-statistic',
+                    query: {
+                      enterpriseCode: $route.query.enterpriseCode,
+                      eventCode: $route.query.eventCode,
+                      beginDate: formDataDate(base.eventStartTime),
+                      endDate: formDataDate(base.eventEndTime)
+                    }
+                  }">
+        <el-button v-if="base.eventStatus == '3'" type="info" :plain="true" size="small" icon="share">统计</el-button>
+      </router-link>
+
       <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="info" :plain="true" size="small" icon="document"
           @click="saveBase()">保存</el-button>
       <div class="clear"></div>
@@ -161,6 +174,9 @@ export default {
       }
     },
     methods: {
+        formDataDate (date) {
+          return util.formDataDate(date)
+        },
         setContent (data) {
             this.base[data.index] = data.content
         },

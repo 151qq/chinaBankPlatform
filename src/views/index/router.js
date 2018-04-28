@@ -343,6 +343,45 @@ const routers = [
             meta: {
               title: '吸粉活动'
             }
+          },
+          {
+            // 答题营销详情
+            path: 'gameStatistic',
+            name: 'game-statistic',
+            component (resolve) {
+              require.ensure(['./game/gameStatistic.vue'], () => {
+                resolve(require('./game/gameStatistic.vue'))
+              })
+            },
+            meta: {
+              title: '活动统计'
+            }
+          },
+          {
+            // 答题营销详情
+            path: 'articleStatistic',
+            name: 'article-statistic',
+            component (resolve) {
+              require.ensure(['./game/articleStatistic.vue'], () => {
+                resolve(require('./game/articleStatistic.vue'))
+              })
+            },
+            meta: {
+              title: '文章统计'
+            }
+          },
+          {
+            // 答题营销详情
+            path: 'gateStatistic',
+            name: 'gate-statistic',
+            component (resolve) {
+              require.ensure(['./game/gateStatistic.vue'], () => {
+                resolve(require('./game/gateStatistic.vue'))
+              })
+            },
+            meta: {
+              title: '关卡统计'
+            }
           }
         ]
       },

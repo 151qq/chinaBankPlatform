@@ -95,7 +95,8 @@
                 class="input-box"
                 v-model="item.gatePassCoupon"
                 filterable
-                placeholder="请选择">
+                placeholder="请选择"
+                @change="couponChange">
                 <el-option
                   :key="index"
                   :label="'无'"
@@ -103,7 +104,7 @@
                 </el-option>
                 <el-option
                   v-for="(coupon, index) in couponList"
-                  v-if="coupon.couponCode != item.gatePassCoupon && coupon.couponCode != item.gateFailCoupon"
+                  v-if="hasSelectCoupons.indexOf(coupon.couponCode) < 0 || coupon.couponCode == item.gatePassCoupon"
                   :label="coupon.couponTitle"
                   :value="coupon.couponCode">
                 </el-option>
@@ -144,7 +145,8 @@
                 class="input-box"
                 v-model="item.gateFailCoupon"
                 filterable
-                placeholder="请选择">
+                placeholder="请选择"
+                @change="couponChange">
                 <el-option
                   :key="index"
                   :label="'无'"
@@ -152,7 +154,7 @@
                 </el-option>
                 <el-option
                   v-for="(coupon, index) in couponList"
-                  v-if="coupon.couponCode != item.gatePassCoupon && coupon.couponCode != item.gateFailCoupon"
+                  v-if="hasSelectCoupons.indexOf(coupon.couponCode) < 0 || coupon.couponCode == item.gateFailCoupon"
                   :label="coupon.couponTitle"
                   :value="coupon.couponCode">
                 </el-option>
@@ -207,28 +209,44 @@
           <section class="formBox">
             <span>成功者徽章</span>
             <div class="input-box">
-              <upload :path="item.gateFailImg"
+              <upload :path="item.gatePassImg"
                       :bg-path="false"
                       :is-operate="isEdit"
                       :item-index="index"
-                      @changeImg="changeFailImg"></upload>
+                      :id-name="'gatePassImg'"
+                      @changeImg="changePassImg"></upload>
             </div>
           </section>
           <section class="formBox">
             <span>失败者徽章</span>
             <div class="input-box">
-              <upload :path="item.gatePassImg"
+              <upload :path="item.gateFailImg"
                       :bg-path="false"
                       :is-operate="isEdit"
                       :item-index="index"
-                      @changeImg="changePassImg"></upload>
+                      :id-name="'gateFailImg'"
+                      @changeImg="changeFailImg"></upload>
             </div>
           </section>       
         </div>
-        <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="danger" :plain="true" size="small" icon="delete2"
+        <router-link class="save-btn"
+                    target="_blank"
+                    :to="{
+                      name: 'gate-statistic',
+                      query: {
+                        enterpriseCode: $route.query.enterpriseCode,
+                        eventCode: $route.query.eventCode,
+                        gameCode: item.gameCode,
+                        gameGateCode: item.gameGateCode
+                      }
+                    }">
+          <el-button v-if="base.eventStatus == '3'" type="info" :plain="true" size="small" icon="share">统计</el-button>
+        </router-link>
+
+        <el-button v-if="isEdit" class="save-btn" type="danger" :plain="true" size="small" icon="delete2"
             @click="deleteBase(item, index)">删除</el-button>
 
-        <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="info" :plain="true" size="small" icon="document"
+        <el-button v-if="isEdit" class="save-btn" type="info" :plain="true" size="small" icon="document"
             @click="saveBase(item)">保存</el-button>
         <div class="clear"></div>
       </section>
@@ -273,7 +291,8 @@ export default {
                 unit_type: [],
                 industry_type: [],
                 content_politics: []
-            }
+            },
+            hasSelectCoupons: []
         }
     },
     mounted () {
@@ -285,10 +304,13 @@ export default {
             userInfo: 'getUserInfo'
         }),
         isEdit () {
-          return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
+          return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode && (this.base.eventStatus == '1' || this.base.eventStatus == '2')
         }
     },
     methods: {
+        formDataDate (date) {
+          return util.formDataDate(date)
+        },
         changeFailImg (data) {
           this.barrieList[data.index].gateFailImg = data.url
         },
@@ -318,13 +340,30 @@ export default {
           }).then(res => {
               if (res.result.success == '1') {
                 this.barrieList = res.result.result
+                this.resetCoupons()
               } else {
                 this.$message.error(res.result.message)
               }
           })
         },
+        couponChange () {
+          this.resetCoupons()
+        },
+        resetCoupons () {
+          var arrs = []
+          this.barrieList.forEach((item) => {
+            if (item.gatePassCoupon) {
+              arrs.push(item.gatePassCoupon)
+            }
+
+            if (item.gateFailCoupon) {
+              arrs.push(item.gateFailCoupon)
+            }
+          })
+          this.hasSelectCoupons = arrs
+        },
         addBarrier () {
-          this.barrieList.push({
+          this.barrieList.shift({
             gameCode: this.gameCode,
             gameGateSequence: '',
             gameGateCode: '',
@@ -446,7 +485,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateSubjectNumber < barrieData.gateDifficultSubjectNumber + barrieData.gateEasySubjectNumber) {
+            if (barrieData.gateSubjectNumber < Number(barrieData.gateDifficultSubjectNumber) + Number(barrieData.gateEasySubjectNumber)) {
                 this.$message({
                     message: '题数数量分配不对！',
                     type: 'warning'
@@ -624,7 +663,7 @@ export default {
       padding-bottom: 0;
     }
 
-    &:nth-child(2) {
+    &:nth-child(1) {
       padding-top: 0;
     }
   }

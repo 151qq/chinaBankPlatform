@@ -73,11 +73,7 @@ export default {
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
-        }),
-        isEditor () {
-          // return this.roleCodes.indexOf('product_admin') > -1
-          return true
-        }
+        })
     },
     methods: {
         searchItem () {
@@ -90,7 +86,7 @@ export default {
                 pageNumber: this.pageNumber
             }
 
-            if (this.subjectContent) {
+            if (this.keyValue) {
                 formData.subjectContent = this.keyValue
             }
 

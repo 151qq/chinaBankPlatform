@@ -71,6 +71,10 @@
                 <div class="clear"></div>
           </el-collapse-item>
           <div class="line-bold"></div> -->
+          <el-collapse-item class="float-form-box" title="营销推广渠道" name="11">
+              <spread-list></spread-list>
+          </el-collapse-item>
+          <div class="line-bold"></div>
           <el-collapse-item class="float-form-box" title="营销推广规则" name="2">
                 <div class="formDiscount">
                     <section class="formBox">
@@ -418,10 +422,6 @@
                 <div class="clear"></div>
           </el-collapse-item>
           <div class="line-bold"></div>
-          <el-collapse-item class="float-form-box" title="营销推广渠道" name="11">
-              <spread-list></spread-list>
-          </el-collapse-item>
-          <div class="line-bold"></div>
           <el-collapse-item class="float-form-box" title="文章模板" name="12">
               <template-list></template-list>
           </el-collapse-item>
@@ -442,7 +442,7 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            activeNames: [],
+            activeNames: ['11'],
             callcenterData: {
                 enterpriseCode: '',
                 sessionOpenInfo: '',

@@ -12,6 +12,7 @@
                             <upload :path="base.shareBigBg"
                                     :is-operate="isEdit"
                                     :bg-path="false"
+                                    :id-name="'shareBigBg'"
                                     @changeImg="changeImgBg"></upload>
                         </div>
                     </section>
@@ -42,6 +43,7 @@
                             <upload :path="base.shareNameBg"
                                     :is-operate="isEdit"
                                     :bg-path="false"
+                                    :id-name="'shareNameBg'"
                                     @changeImg="changeImgName"></upload>
                         </div>
                     </section>

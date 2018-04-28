@@ -4,6 +4,7 @@
 import axios from 'axios';
 import common from './common';
 import interfaces from './interfaces';
+import $ from 'Jquery'
 
 export default {
     /**
@@ -49,6 +50,28 @@ export default {
     range: function (n) {
         n = n.toString()
         return n[1] ? n : '0' + n
+    },
+    formRequest: (option) => {
+        let method = option.method ? option.method : 'get';
+        let idName = option.idName ? option.idName : 'formBox'
+        let pathUrl = interfaces.interfaces[option.interface]
+
+        if ($('#' + idName).length) {
+            for (var key in option.data) {
+                $('#' + key + idName).val(option.data[key])
+            }
+        } else {
+            var formString = '<form id="' + idName + '" action="' + pathUrl + '" method="' + method + '" style="display:none" >'
+            var inputString = ''
+            for (var key in option.data) {
+                inputString += '<input type="hidden" id="' + key + idName + '" name="' + key + '"  value="' + option.data[key] + '"/>'
+            }
+
+            formString = formString + inputString + '</form>'
+            $(formString).appendTo('body')
+        }
+
+        $('#' + idName).submit()
     },
     request: (option) => {
         let method = option.method ? option.method : 'get';

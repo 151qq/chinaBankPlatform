@@ -2,21 +2,6 @@
     <section class="product-base-box">
       <div class="formDiscount">
         <section class="formBox">
-            <span>题目适用场景</span>
-            <el-select
-              class="input-box"
-              v-model="base.subjectScenario"
-              filterable
-              placeholder="请选择">
-              <el-option
-                v-for="(item, index) in selectList.scenario"
-                :key="index"
-                :label="item.key"
-                :value="item.value">
-              </el-option>
-            </el-select>
-        </section>
-        <section class="formBox">
             <span>题目分值</span>
             <el-input
               class="input-box"
@@ -118,7 +103,6 @@ export default {
         return {
             base: {
               subjectStatus: '0',
-              subjectScenario: '1',
               subjectValue: '',
               optionCssType: '1',
               subjectCssType: '2',
@@ -136,20 +120,6 @@ export default {
             },
             imgNum: 9,
             selectList: {
-              scenario: [
-                {
-                  value: '1',
-                  key: '答题游戏'
-                },
-                {
-                  value: '2',
-                  key: '营销培训'
-                },
-                {
-                  value: '3',
-                  key: '在线课程'
-                }
-              ],
               sujectTypes: [
                 {
                   value: '1',
@@ -237,14 +207,6 @@ export default {
           })
         },
         saveBase () {
-            if (!this.base.subjectScenario) {
-                this.$message({
-                    message: '请填写适用场景！',
-                    type: 'warning'
-                })
-                return false
-            }
-
             if (!this.base.subjectValue) {
                 this.$message({
                     message: '请填写题目分值！',
@@ -298,6 +260,8 @@ export default {
         },
         setAttachments (articleData) {
           this.base.articleList = [].concat(articleData.datas)
+          this.base.formData.attachmentTargetType = 'subjectQustion',
+          this.base.formData.attachmentSourceType = "attachmen_type_4",
           this.base.formData.attachmentSourceCodes = [].concat(articleData.codes)
         },
         deleteArticle (data) {

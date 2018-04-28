@@ -26,8 +26,8 @@
                 </div>
                 
                 <div class="card-content">
-                    <div class="card-title">{{item.eventPlanTitle}}</div>
-                    <div class="card-desc">{{item.eventPlanDesc}}</div>
+                    <div class="card-title" v-html="item.eventPlanTitle"></div>
+                    <div class="card-desc" v-html="item.eventPlanDesc"></div>
                     <div class="card-tag">
                         <el-tag v-if="item.eventStatus == '1' || item.eventStatus == '2'" type="gray">草稿</el-tag>
                         <el-tag v-if="item.eventStatus == '3'" type="success">已发布</el-tag>
@@ -44,6 +44,9 @@
 
                     <el-button v-if="item.eventStatus == '3'" type="info" :plain="true" size="small"
                         @click.prevent="stopItemByCode(item)">终止</el-button>
+
+                    <el-button v-if="item.eventStatus == '3'" type="info" :plain="true" size="small"
+                        @click.prevent="downloadLog(index)">导出</el-button>
                 </section>
             </router-link>
         </section>
@@ -58,6 +61,22 @@
             :page-size="pageSize"
             :total="total">
         </el-pagination>
+
+        <el-dialog title="领券记录导出" :visible.sync="isAddItem">
+          <el-form :label-position="'left'" :model="addItemForm" label-width="80px">
+            <el-form-item label="添加类型">
+                <el-date-picker
+                  v-model="addItemForm.dateRange"
+                  type="daterange"
+                  placeholder="选择日期范围">
+                </el-date-picker>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+                <el-button @click="isAddItem = false">取 消</el-button>
+                <el-button type="primary" @click="confirmItem">确定</el-button>
+          </div>
+        </el-dialog>
   </div>
 </template>
 <script>
@@ -72,7 +91,12 @@ export default {
             marketList: [],
             pageSize: 20,
             pageNumber: 1,
-            total: 0
+            total: 0,
+            isAddItem: false,
+            nowItemIndex: '',
+            addItemForm: {
+              dateRange: []
+            }
         }
     },
     mounted () {
@@ -187,6 +211,40 @@ export default {
             }
 
             this.$router.push(pathUrl)
+        },
+        downloadLog (index) {
+            this.isAddItem = true
+            this.addItemForm = {
+              dateRange: []
+            }
+            this.nowItemIndex = index
+        },
+        confirmItem () {
+            var formData = {
+                eventCode: this.marketList[this.nowItemIndex].eventCode,
+                enterpriseCode: this.$route.query.enterpriseCode,
+                startTime: '',
+                endTime: ''
+            }
+
+            if (!this.addItemForm.dateRange[0] || !this.addItemForm.dateRange[1]) {
+                this.$message({
+                  type: 'warning',
+                  message: '请选择日期范围!'
+                })
+
+                return
+            }
+
+            formData.startTime = util.formDataDate(this.addItemForm.dateRange[0]) + ' 00:00:00'
+            formData.endTime = util.formDataDate(this.addItemForm.dateRange[1]) + ' 23:59:59'
+
+            util.formRequest({
+              method: 'get',
+              interface: 'exportCouponLog',
+              idName: 'exportCouponLog',
+              data: formData
+            })
         },
         pageChange (size) {
             this.pageNumber = size

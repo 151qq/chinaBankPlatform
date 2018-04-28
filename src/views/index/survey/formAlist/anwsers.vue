@@ -37,15 +37,6 @@
 
         <el-dialog title="添加选项" :visible.sync="isAddItem" class="anwser-box-add">
           <el-form :label-position="'left'" :model="addFormData" label-width="80px">
-            <el-form-item label="序号">
-                <el-input
-                    type="number"
-                    :min="0"
-                    placeholder="请输入"
-                    v-model="addFormData.subjectSequence">
-                </el-input>
-            </el-form-item>
-
             <el-form-item label="选项" v-if="base.optionCssType == '2'">
                 <el-input
                     type="textarea"
@@ -262,19 +253,14 @@ export default {
             this.isAddItem = true
         },
         editItem (item) {
+            item.formData.attachmentTargetType = 'subjectQustion',
+            item.formData.attachmentSourceType = "attachmen_type_4",
+
             this.addFormData = Object.assign({}, item)
 
             this.isAddItem = true
         },
         confirmItem () {
-            if (!this.addFormData.subjectSequence) {
-                this.$message({
-                    message: '请填写选项序号！',
-                    type: 'warning'
-                })
-                return false
-            }
-
             if (!this.addFormData.subjectContent) {
                 this.$message({
                     message: '请填写选项内容！',

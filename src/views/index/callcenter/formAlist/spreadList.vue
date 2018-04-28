@@ -41,6 +41,7 @@
               :maxlength="140"
               v-model="item.adChannelDesc">
             </el-input>
+            <div class="limit-box">剩余<a>{{140 - item.adChannelDesc.length}}</a>字</div>
           </section>
           <section class="formBox" v-if="item.adQrcode">
             <span>渠道二维码</span>
@@ -111,7 +112,7 @@ export default {
           })
         },
         addBarrier () {
-          this.barrieList.push({
+          this.barrieList.shift({
             enterpriseCode: this.$route.query.enterpriseCode,
             adChannelType: '',
             adChannelCode: '',

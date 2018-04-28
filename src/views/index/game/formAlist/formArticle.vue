@@ -4,7 +4,7 @@
                 type="primary"
                 size="small"
                 icon="plus"
-                v-if="base.eventStatus == '1' || base.eventStatus == '2'"
+                v-if="base.eventStatus == '3'"
                 @click="addItem">增加</el-button>
       <router-link class="card-box"
                     target="_blank"
@@ -19,10 +19,27 @@
               <div class="card-desc">{{item.pageAbstract}}</div>
           </div>
           
-          <section class="card-btns"
-                    v-if="base.eventStatus == '1' || base.eventStatus == '2'">
-              <i class="el-icon-delete2"
-                  @click.prevent="deleteItem(item)"></i>
+          <section class="card-btns">
+              <router-link  target="_blank"
+                            :to="{
+                            name: 'article-statistic',
+                            query: {
+                              enterpriseCode: $route.query.enterpriseCode,
+                              eventCode: $route.query.eventCode,
+                              pageCode: item.pageCode,
+                              beginDate: formDataDate(base.eventStartTime),
+                              endDate: formDataDate(base.eventEndTime)
+                            }
+                          }">
+                  <el-button v-if="base.eventStatus == '3'" type="info" :plain="true" size="small" icon="share">统计</el-button>
+              </router-link>
+
+              <el-button v-if="base.eventStatus == '3'"
+                        type="info"
+                        :plain="true"
+                        size="small"
+                        icon="delete2"
+                        @click.prevent="deleteItem(item)">删除</el-button>
           </section>
       </router-link>
       <div v-if="!selectList.length"
@@ -82,6 +99,9 @@ export default {
       this.getSelectList()
     },
     methods: {
+        formDataDate (date) {
+          return util.formDataDate(date)
+        },
         getSelectList () {
           var formData = {
               enterpriseCode: this.$route.query.enterpriseCode,

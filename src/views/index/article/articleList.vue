@@ -33,12 +33,14 @@
                     </div>
                 </div>
                 <section class="card-btns" v-if="isEdit">
-                    <!-- <i class="el-icon-upload2"
-                        v-if="item.pageStatus == '2'"
-                        @click.prevent="changeStatus(item, 'submitted')"></i> -->
-                    <i class="el-icon-delete2"
-                        v-if="item.pageStatus == '2'"
-                        @click.prevent="deleteItem(item)"></i>
+                    <el-button v-if="item.pageStatus == '2'" type="danger" :plain="true" size="small"
+                        @click.prevent="deleteItem(item)">删除</el-button>
+
+                    <el-button v-if="item.pageStatus == '2'" type="info" :plain="true" size="small"
+                        @click.prevent="changeStatus(item, '1')">发布</el-button>
+
+                    <el-button v-if="item.pageStatus == '1'" type="info" :plain="true" size="small"
+                        @click.prevent="changeStatus(item, '3')">终止</el-button>
                 </section>
             </router-link>
         </section>
@@ -185,14 +187,14 @@ export default {
               interface: 'html5PageSubmit',
               data: {
                 pageCode: item.pageCode,
-                pageStatus: '1'
+                pageStatus: type
               }
             }).then(res => {
               if (res.result.success == '1') {
                 this.getList()
                 this.$message({
                   type: 'success',
-                  message: '状态修改成功!'
+                  message: '更新成功!'
                 })
               } else {
                 this.$message.error(res.result.message)
