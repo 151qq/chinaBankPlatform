@@ -48,6 +48,9 @@
                     :to="{ name: 'callcenter',query:{enterpriseCode: userInfo.enterpriseCode}}">
         营销配置
       </router-link>
+      <router-link  :to="{ name: 'order',query:{enterpriseCode: userInfo.enterpriseCode}}">
+        订单管理
+      </router-link>
       <router-link  v-if="isRep || isRoot"
                     :to="{ name: 'enterprise'}">
         企业信息

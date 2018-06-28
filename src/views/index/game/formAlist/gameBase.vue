@@ -3,24 +3,25 @@
       <div class="formDiscount">
         <section class="formBox">
             <span>分享积分</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="game.gameSharePoint"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="game.gameSharePoint"></el-input-number>
         </section>
         <section class="formBox">
             <span>获客积分</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="game.gameNewCustomerPoint"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="game.gameNewCustomerPoint"></el-input-number>
         </section>
         <section class="formBox">
             <span>初始积分</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="game.gameInitPoint"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="game.gameInitPoint"></el-input-number>
         </section>
         <section class="formBox">
             <span>玩游戏条件</span>
             <el-select
               class="input-box"
               v-model="game.gamePlayPrecondition"
+              :disabled="true"
               filterable
               placeholder="请选择">
               <el-option
@@ -103,7 +104,7 @@
         </section> -->
         
       </div>
-      <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="info" :plain="true" size="small" icon="document"
+      <el-button v-if="isEdit" class="save-btn" type="info" :plain="true" size="small" icon="document"
           @click="saveBase()">保存</el-button>
       <div class="clear"></div>
     </section>
@@ -122,7 +123,7 @@ export default {
                 gameInitPoint: '',
                 gameIncentiveAccumulateRule: '1',
                 gameFailureBack: '1',
-                gamePlayPrecondition: '1',
+                gamePlayPrecondition: '2',
                 gamePkEffectiveRate: '',
                 gamePkMinBet: '',
                 gamePkTime: '',
@@ -203,7 +204,7 @@ export default {
             })
         },
         saveBase () {
-            if (this.game.gameSharePoint == '') {
+            if (this.game.gameSharePoint === '') {
                 this.$message({
                     message: '请填写分享积分！',
                     type: 'warning'
@@ -211,7 +212,7 @@ export default {
                 return false
             }
 
-            if (this.game.gameNewCustomerPoint == '') {
+            if (this.game.gameNewCustomerPoint === '') {
                 this.$message({
                     message: '请填写获客积分！',
                     type: 'warning'
@@ -219,7 +220,7 @@ export default {
                 return false
             }
 
-            if (this.game.gameInitPoint == '') {
+            if (this.game.gameInitPoint === '') {
                 this.$message({
                     message: '请填写初始积分！',
                     type: 'warning'

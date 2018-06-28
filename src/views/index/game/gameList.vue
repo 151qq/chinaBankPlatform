@@ -26,8 +26,12 @@
                 </div>
                 
                 <div class="card-content">
-                    <div class="card-title" v-html="item.eventPlanTitle"></div>
-                    <div class="card-desc" v-html="item.eventPlanDesc"></div>
+                    <div class="card-title">
+                      {{item.eventPlanTitle | formDataHtmlStr}}
+                    </div>
+                    <div class="card-desc">
+                      {{item.eventPlanDesc | formDataHtmlStr}}
+                    </div>
                     <div class="card-tag">
                         <el-tag v-if="item.eventStatus == '1' || item.eventStatus == '2'" type="gray">草稿</el-tag>
                         <el-tag v-if="item.eventStatus == '3'" type="success">已发布</el-tag>
@@ -106,6 +110,13 @@ export default {
         ...mapGetters({
             userInfo: 'getUserInfo'
         })
+    },
+    filters: {
+      formDataHtmlStr (value) {
+        if (value) {
+          return value.replace(/<.*?>/g, '')
+        }
+      }
     },
     methods: {
         searchItem () {

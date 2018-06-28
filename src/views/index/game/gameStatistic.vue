@@ -1,10 +1,17 @@
 <template>
     <section class="echart-out-body">
-        <div class="echart-item">
+        <div class="echart-item" v-if="echartData.title">
             <echart-tar :id-name="'followusers'" :echartsDate="echartData" ref="followusers"></echart-tar>
         </div>
-        <div class="echart-item">
+        <div class="echart-item" v-if="echartDataUser.title">
             <echart-tar :id-name="'gameusers'" :echartsDate="echartDataUser" ref="gameusers"></echart-tar>
+        </div>
+        <div class="echart-item" v-if="echartDataWinner.title">
+            <echart-tar :id-name="'gatewinners'" :echartsDate="echartDataWinner" ref="gatewinners"></echart-tar>
+        </div>
+
+        <div v-if="!echartData.title && !echartDataUser.title && isLoad" class="null-page">
+            暂无统计
         </div>
     </section>
 </template>
@@ -17,12 +24,14 @@ export default {
         return {
             isLoad: false,
             echartData: {},
-            echartDataUser: {}
+            echartDataUser: {},
+            echartDataWinner: {}
         }
     },
     mounted () {
         this.getList()
         this.getData()
+        this.getWinners()
     },
     methods: {
         getList () {
@@ -43,14 +52,14 @@ export default {
                     return
                 }
 
+                this.isLoad = true
                 if (res.result.result) {
                     res.result.result.title = '活动关注数统计'
+                    this.echartData = res.result.result
+                    setTimeout(() => {
+                        this.$refs['followusers'].setEcharts()
+                    }, 0)
                 }
-                
-                this.echartData = res.result.result
-                setTimeout(() => {
-                    this.$refs['followusers'].setEcharts()
-                }, 0)
             })
         },
         getData () {
@@ -68,14 +77,40 @@ export default {
                     return
                 }
 
+                this.isLoad = true
                 if (res.result.result) {
                     res.result.result.title = '玩游戏人数统计'
+                    this.echartDataUser = res.result.result
+                    setTimeout(() => {
+                        this.$refs['gameusers'].setEcharts()
+                    }, 0)
                 }
-                
-                this.echartDataUser = res.result.result
-                setTimeout(() => {
-                    this.$refs['gameusers'].setEcharts()
-                }, 0)
+            })
+        },
+        getWinners () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                eventCode: this.$route.query.eventCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'gatewinners',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '0') {
+                    this.$message.error(res.result.message)
+                    return
+                }
+
+                this.isLoad = true
+                if (res.result.result) {
+                    res.result.result.title = '中奖人数统计'
+                    this.echartDataWinner = res.result.result
+                    setTimeout(() => {
+                        this.$refs['gatewinners'].setEcharts()
+                    }, 0)
+                }
             })
         }
     },

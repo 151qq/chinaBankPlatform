@@ -25,11 +25,13 @@
                                         :game-code="gameDetail.gameCode"></barrier-list>
                     </el-collapse-item>
                 </template>
-
-                <div class="line-bold"></div>
-                <el-collapse-item class="float-form-box" title="活动推广文章" name="2">
-                    <form-article :base="baseData"></form-article>
-                </el-collapse-item>
+                
+                <template v-if="baseData.eventStatus != '1' && baseData.eventStatus != '2'">
+                    <div class="line-bold"></div>
+                    <el-collapse-item class="float-form-box" title="活动推广文章" name="2">
+                        <form-article :base="baseData"></form-article>
+                    </el-collapse-item>
+                </template>
             </template>
         </el-collapse>    
     </div>

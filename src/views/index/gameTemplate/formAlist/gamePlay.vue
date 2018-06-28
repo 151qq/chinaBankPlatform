@@ -21,6 +21,19 @@
                         </el-select>
                     </section> -->
 
+                    <section class="block-title">基本配置</section>
+                    <section class="baseInput">
+                        <span>壁纸</span>
+                        <div class="input-box">
+                            <upload :path="base.gameAnimateGif"
+                                    :is-operate="isEdit"
+                                    :bg-path="false"
+                                    :id-name="'gameAnimateGif'"
+                                    @changeImg="changeImgTr"></upload>
+                        </div>
+                    </section>
+                    <div class="clear"></div>
+
                     <section class="block-title">题目样式</section>
                     <section class="baseInput">
                         <span>题目顶部距离</span>
@@ -175,7 +188,7 @@
             </div>
         </section>
         <section class="right-content">
-            <section class="game-big-body" :style="gmBgBox">
+            <section class="game-big-body" :style="gmPlayBox">
                 <div class="clock-box"
                         v-if="base.clockStyle == '1'">
                         {{60 | formatDate}}
@@ -285,7 +298,7 @@ export default {
         return {
             isOperate: true,
             base: {
-                gameBigBg: '',
+                gameAnimateGif: '/static/images/game-bg.jpg',
                 clockStyle: '1',
                 playBtnFrameStyle: 'arrow',
                 playQuestionMarginTop: '37',
@@ -373,6 +386,9 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        changeImgTr (data) {
+            this.base.gameAnimateGif = data.url
         }
     },
     components: {

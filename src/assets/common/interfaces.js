@@ -156,7 +156,8 @@ export default {
         followusers: platform + 'count/followusers.json',
         gameusers: platform + 'count/gameusers.json',
         gateusers: platform + 'count/gateusers.json',
-        gamescoreshare: platform + 'count/gamescoreshare.json',
+        gatewinners: platform + 'count/gatewinners.json',
+        gamepointconsume: platform + 'count/gamepointconsume.json',
 
         /**
         * 推荐文章 get
@@ -189,6 +190,15 @@ export default {
         memberList: platform + 'memberController/list.json',
         memberDetail: platform + 'memberController/details.json',
         selectLogList: platform + 'memberController/selectLogList.json',
+
+        /**
+        * 会员 get
+        */
+        organizeOrderList: platform + 'organizeOrderInfo/list.json',
+        organizeOrderInfo: platform + 'organizeOrderInfo/info.json',
+        organizeOrderSave: platform + 'organizeOrderInfo/insertOrUpdate.json',
+        organizeOrderStatus: platform + 'organizeOrderInfo/updateStatus.json',
+        organizeOrderProductInfo: platform + 'organizeOrderProduct/organizeOrderProductInfo.json',
 
         /**
         * 文章统计 get

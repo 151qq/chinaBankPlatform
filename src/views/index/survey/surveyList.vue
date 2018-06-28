@@ -9,8 +9,18 @@
             <el-button class="search-btn" type="primary" icon="search" @click="searchItem">
               搜索
             </el-button>
-
-            <el-button class="add-new-btn" type="primary" icon="plus" @click="addItem">增加</el-button>
+            
+            <router-link class="add-new-btn"
+                          target="_blank"
+                          :to="{
+                            name: 'survey-detail',
+                            query: {
+                              enterpriseCode: $route.query.enterpriseCode
+                            }
+                          }">
+              <el-button class="add-new-btn" type="primary" icon="plus">增加</el-button>
+            </router-link>
+            
         </div>
         <section class="big-cards-box">
             <router-link class="card-box"
@@ -104,16 +114,6 @@ export default {
                 this.isPage = true
                 this.marketList = res.result.result
             })
-        },
-        addItem () {
-            var pathUrl = {
-              name: 'survey-detail',
-              query: {
-                enterpriseCode: this.$route.query.enterpriseCode
-              }
-            }
-
-            this.$router.push(pathUrl)
         },
         submitItem (item) {
             util.request({

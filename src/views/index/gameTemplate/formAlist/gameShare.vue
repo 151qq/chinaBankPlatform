@@ -5,20 +5,6 @@
                 <div class="form-box">
                     <div class="clear"></div>
                     <!-- 大标题样式 -->
-                    <section class="block-title">背景样式</section>
-                    <section class="baseInput">
-                        <span>分享背景</span>
-                        <div class="input-box">
-                            <upload :path="base.shareBigBg"
-                                    :is-operate="isEdit"
-                                    :bg-path="false"
-                                    :id-name="'shareBigBg'"
-                                    @changeImg="changeImgBg"></upload>
-                        </div>
-                    </section>
-
-                    <div class="clear"></div>
-                    <!-- 大标题样式 -->
                     <section class="block-title">内容样式</section>
                     <section class="baseInput">
                         <span>头像大小</span>
@@ -35,25 +21,6 @@
                                 class="input-box"
                                 type="number"
                                 v-model="base.shareAttarMarginTop">
-                        </el-input>
-                    </section>
-                    <section class="baseInput">
-                        <span>称号背景</span>
-                        <div class="input-box">
-                            <upload :path="base.shareNameBg"
-                                    :is-operate="isEdit"
-                                    :bg-path="false"
-                                    :id-name="'shareNameBg'"
-                                    @changeImg="changeImgName"></upload>
-                        </div>
-                    </section>
-                    <section class="baseInput rightF">
-                        <span>称号字体高度</span>
-                        <el-input
-                                class="input-box"
-                                type="number"
-                                :min="0"
-                                v-model="base.shareNameLineHeight">
                         </el-input>
                     </section>
 
@@ -89,30 +56,29 @@
             <section class="gmBodyArea">
                 <div class="share-box">
                     <div class="share-title">
-                        <img src="/static/images/share-title.png">
+                        <img src="/static/images/game-title.jpg">
                     </div>
                     <div class="person-box">
                         <div class="attar-box">
-                            <img class="bg-attar" src="/static/images/img-out.png">
+                            <img class="bg-attar" src="/static/images/attar-out.png">
                             <img :style="shareAttarStyle" class="attar" src="/static/images/art1.jpg">
                         </div>
                         <div class="person">
                             <div class="name-box">王小明</div>
-                            <div class="game-name" :style="shareNameBg">
-                                理财天才
-                            </div>
                             <div class="user-num">
-                                <img src="../../../../assets/images/ranking-icon.png">
-                                <div class="num-box">27名</div>
-                                <div>/共12008名</div>
+                                共答了60道题<br>
+                                获得100积分
                             </div>
+                        </div>
+
+                        <div class="ewm-box">
+                            <img src="/static/images/ewm.png">
+                            <img src="/static/images/figer-icon.png">
+                            <span class="ewm-mess">长按二维码进入游戏</span>
                         </div>
                     </div>
 
-                    <div class="ewm-box">
-                        <img src="/static/images/ewm.png">
-                        <span>长按二维码进入游戏</span>
-                    </div>
+                    
                 </div>
             </section>
             <!-- <section class="bottom-btn-box">
@@ -132,8 +98,6 @@ export default {
         return {
             isOperate: true,
             base: {
-                shareBigBg: '/static/images/share-bg.jpg',
-                shareNameBg: '/static/images/name-bg.png',
                 shareNameLineHeight: '43',
                 shareAttarHeight: '75',
                 shareAttarMarginTop: '0'
@@ -172,12 +136,6 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
-        },
-        changeImgBg (data) {
-            this.base.shareBigBg = data.url
-        },
-        changeImgName (data) {
-            this.base.shareAttarBg = data.url
         }
     },
     components: {

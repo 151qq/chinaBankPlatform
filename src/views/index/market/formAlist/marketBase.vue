@@ -50,18 +50,18 @@
         </section>
         <section class="formBox">
             <span>新增潜客</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventLeads"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventLeads"></el-input-number>
         </section>
         <section class="formBox">
             <span>新增商机</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventHotLeads"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventHotLeads"></el-input-number>
         </section>
-        <section class="formBox rightF">
+        <section class="formBox">
             <span>新增销售</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventSalesOpp"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventSalesOpp"></el-input-number>
         </section>
         <section class="formBox bigF">
             <span>套券描述</span>

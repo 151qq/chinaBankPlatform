@@ -248,7 +248,11 @@ export default {
               if (res.result.success == '1') {
                 for (var key in res.result.result) {
                   if (key != 'enterpriseCode' && key != 'subjectCode' ) {
-                    res.result.result[key] = res.result.result[key].split(',')
+                    if (res.result.result[key]) {
+                      res.result.result[key] = res.result.result[key].split(',')
+                    } else {
+                      res.result.result[key] = []
+                    }
                   }
                 }
 

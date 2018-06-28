@@ -49,13 +49,6 @@ var plugins = [
       }
     }
   }),
-  new CopyWebpackPlugin([
-    {
-      from: path.resolve(__dirname, '../static'),
-      to: config.build.assetsSubDirectory,
-      ignore: ['.*']
-    }
-  ]),
   new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
   new OptimizeCSSPlugin({
     cssProcessorOptions: {
@@ -168,5 +161,11 @@ if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
+
+webpackConfig.plugins.push(new CopyWebpackPlugin([{
+  from: path.resolve(__dirname, '../static'),
+  to: config.build.assetsSubDirectory,
+  ignore: ['.*']
+}]))
 
 module.exports = webpackConfig

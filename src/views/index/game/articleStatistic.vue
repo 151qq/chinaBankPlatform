@@ -1,6 +1,13 @@
 <template>
     <section class="echart-out-body">
-        <echart-tar :id-name="'articlereading'" :echartsDate="echartData" ref="articlereading"></echart-tar>
+        <echart-tar v-if="echartData.title"
+                    :id-name="'articlereading'"
+                    :echartsDate="echartData"
+                    ref="articlereading"></echart-tar>
+
+        <div v-if="!echartData.title && isLoad" class="null-page">
+            暂无统计
+        </div>
     </section>
 </template>
 <script>
@@ -36,12 +43,15 @@ export default {
                     return
                 }
 
-                res.result.result.title = '文章统计'
+                this.isLoad = true
+                if (res.result.result) {
+                    res.result.result.title = '文章统计'
 
-                this.echartData = res.result.result
-                setTimeout(() => {
-                    this.$refs['articlereading'].setEcharts()
-                }, 0)
+                    this.echartData = res.result.result
+                    setTimeout(() => {
+                        this.$refs['articlereading'].setEcharts()
+                    }, 0)
+                }
             })
         }
     },

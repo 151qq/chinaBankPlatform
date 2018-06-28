@@ -6,7 +6,7 @@
                     <div class="clear"></div>
                     <section class="block-title">基本配置</section>
                     <section class="baseInput">
-                        <span>游戏壁纸</span>
+                        <span>壁纸</span>
                         <div class="input-box">
                             <upload :path="base.gameBigBg"
                                     :is-operate="isEdit"
@@ -15,17 +15,6 @@
                                     @changeImg="changeImgBg"></upload>
                         </div>
                     </section>
-                    <section class="baseInput rightF">
-                        <span>过场动画</span>
-                        <div class="input-box">
-                            <upload :path="base.gameAnimateGif"
-                                    :is-operate="isEdit"
-                                    :bg-path="false"
-                                    :id-name="'gameAnimateGif'"
-                                    @changeImg="changeImgTr"></upload>
-                        </div>
-                    </section>
-                    
                     <div class="clear"></div>
                     <!-- 大标题样式 -->
                     <section class="block-title">标题样式</section>
@@ -234,7 +223,7 @@ export default {
         return {
             isOperate: true,
             base: {
-                gameBigBg: '/static/images/game-bg.jpg',
+                gameBigBg: '/static/images/start-bg.jpg',
                 gameAnimateGif: '',
                 gamePkAnimateGif: '',
                 titleBlockHeight: 88,
@@ -333,11 +322,6 @@ export default {
         },
         changeImgBg (data) {
             this.base.gameBigBg = data.url
-            this.imgShowUrl = data.url
-        },
-        changeImgTr (data) {
-            this.base.gameAnimateGif = data.url
-            this.imgShowUrl = data.url
         }
     },
     components: {

@@ -1,7 +1,16 @@
 <template>
     <section class="echart-out-body">
-        <div class="echart-item">
-            <echart-tar :id-name="'gateusers'" :echartsDate="echartData" ref="gateusers"></echart-tar>
+        <div class="gate-scores-box" v-if="scoreshareNum">
+            <div class="title">消耗积分中位数：</div>
+            <div>{{scoreshareNum}}分</div>
+        </div>
+        <echart-tar v-if="echartData.title"
+                    :id-name="'gateusers'"
+                    :echartsDate="echartData"
+                    ref="gateusers"></echart-tar>
+
+        <div v-if="!echartData.title && isLoad" class="null-page">
+            暂无统计
         </div>
     </section>
 </template>
@@ -39,26 +48,25 @@ export default {
                     return
                 }
 
+                this.isLoad = true
                 if (res.result.result) {
                     res.result.result.title = '关卡相关统计'
+                    this.echartData = res.result.result
+                    setTimeout(() => {
+                        this.$refs['gateusers'].setEcharts()
+                    }, 0)
                 }
-                
-                this.echartData = res.result.result
-                setTimeout(() => {
-                    this.$refs['gateusers'].setEcharts()
-                }, 0)
             })
         },
         getData () {
             var formData = {
-                interactionPrimeObject: this.$route.query.eventCode,
-                interactionSubObject: this.$route.query.gameCode,
-                interactionOtherObject: this.$route.query.gameGateCode
+                gameCode: this.$route.query.gameCode,
+                gameGateCode: this.$route.query.gameGateCode
             }
 
             util.request({
                 method: 'get',
-                interface: 'gamescoreshare',
+                interface: 'gamepointconsume',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -79,6 +87,15 @@ export default {
 .echart-out-body {
     width: 1000px;
     margin: 80px auto 30px;
+
+    .gate-scores-box {
+        display: flex;
+        font-size: 17px;
+        color: #333333;
+        font-weight: bold;
+        line-height: 32px;
+        padding: 0 5px;
+    }
 
     .echart-item {
         width: 100%;

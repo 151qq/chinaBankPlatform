@@ -13,9 +13,9 @@
             <el-tab-pane :label="'结束页'" :name="'stop'">
                 <game-stop :file-type="'stop'" :base-data="base" @getBase="getBase"></game-stop>
             </el-tab-pane>
-            <el-tab-pane :label="'分享页'" :name="'share'">
+            <!-- <el-tab-pane :label="'分享页'" :name="'share'">
                 <game-share :file-type="'share'" :base-data="base" @getBase="getBase"></game-share>
-            </el-tab-pane>
+            </el-tab-pane> -->
             <!-- <el-tab-pane :label="'助威'" :name="'help'">
                 <game-help :file-type="'help'" :base-data="base" @getBase="getBase"></game-help>
             </el-tab-pane> -->
@@ -258,11 +258,10 @@ export default {
         .start-btn-box {
             width: 100%;
             flex-direction: column;
-            display: flex;
-            align-items: center;
+            padding: 0 30px;
             box-sizing: border-box;
             overflow: hidden;
-            margin-bottom: 70px;
+            margin-bottom: 160px;
         }
 
         .play-btn-box {
@@ -314,28 +313,28 @@ export default {
               justify-content: space-around;
 
               .share-title {
-                margin-top: 20px;
-
                 img {
                   display: block;
-                  width: 80%;
+                  width: 100%;
                   margin: auto;
                 }
               }
 
               .person-box {
+                position: relative;
+                flex: 1;
+                background: #2B64E1;
+                margin-top: -1px;
+                padding-top: 13px;
+
                 .attar-box {
-                  width: 140px;
-                  height: 140px;
                   overflow: hidden;
                   position: relative;
-                  left: 50%;
-                  transform: translateX(-50%);
 
                   .bg-attar {
                     display: block;
-                    width: 100%;
-                    height: 100%;
+                    margin: auto;
+                    width: 74px;
                   }
 
                   .attar {
@@ -344,6 +343,9 @@ export default {
                     top: 50%;
                     border-radius: 50%;
                     transform: translate(-50%, -50%);
+                    width: 40px;
+                    height: 40px;
+                    margin-top: 5px;
                   }
                 }
 
@@ -354,55 +356,44 @@ export default {
                     font-size: 14px;
                     color: #ffffff;
                     text-align: center;
-                  }
-
-                  .game-name {
-                    font-size: 14px;
-                    color: #ffffff;
-                    background: url() no-repeat left top;
-                    background-size: 100% 100%;
-                    width: 180px;
-                    height: 36px;
-                    text-align: center;
-                    margin: 10px auto;
+                    margin-top: 7px;
                   }
 
                   .user-num {
                     height: 40px;
-                    display: flex;
-                    align-items: center;
-                    font-size: 14px;
-                    color: #ffffff ;
-                    justify-content: center;
-
-                    img {
-                      display: block;
-                      width: 18px;
-                      height: 14px;
-                      margin-right: 10px;
-                    }
-
-                    .num-box {
-                      font-size: 16px;
-                    }
+                    margin-top: 10px;
+                    text-align: center;
+                    font-size: 18px;
+                    line-height: 30px;
+                    color: #FFEB65 ;
                   }
                 }
-              }
 
-              .ewm-box {
-                img {
-                  display: block;
-                  width: 100px;
-                  height: 100px;
-                  margin: auto;
-                }
+                .ewm-box {
+                  display: flex;
+                  width: 160px;
+                  position: absolute;
+                  left: 50%;
+                  bottom: 30px;
+                  margin-left: -80px;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
 
-                span {
-                  display: block;
-                  text-align: center;
-                  line-height: 36px;
-                  font-size: 12px;
-                  color: #ffffff;
+                  img {
+                    display: block;
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 4px;
+                  }
+
+                  span {
+                    display: block;
+                    width: 100%;
+                    color: #A3C0FF;
+                    font-size: 14px;
+                    margin-top: 7px;
+                    text-align: center;
+                  }
                 }
               }
             } 
@@ -509,6 +500,32 @@ export default {
               margin-top: 10px;
               line-height: 17px;
             }
+        }
+
+        .click-box {
+          display: block;
+          margin-top: 20px;
+
+          img {
+            display: block;
+            width: 220px;
+            height: auto;
+            margin: 0 auto 10px;
+          }
+
+          .btn-font {
+            display: block;
+            width: 190px;
+            height: 32px;
+            margin: 10px auto 0;
+            text-align: center;
+            font-size: 14px;
+            line-height: 32px;
+            color: #ffffff;
+            background: #C5443E;
+            border-radius: 4px;
+            transform: translateX(-7px);
+          }
         }
 
         .honor-box {

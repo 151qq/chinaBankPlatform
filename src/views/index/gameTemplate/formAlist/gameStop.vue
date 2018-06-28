@@ -96,11 +96,10 @@
                     <p>分享战绩可以获得更多积分</p>
                 </div>
 
-                <a class="honor-box">
-                    <span class="money-num">¥ 20</span>
-                    <span class="btn-font">
-                        <img src="../../../../assets/images/ticket-icon.png">
-                        领取奖励
+                <a class="click-box" v-if="!hasAward">
+                    <img src="/static/images/gift-door.gif">
+                    <span class="btn-font" v-if="!isClick">
+                        点击摇奖
                     </span>
                 </a>
             </section>

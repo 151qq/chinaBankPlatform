@@ -112,7 +112,7 @@ export default {
           })
         },
         addBarrier () {
-          this.barrieList.shift({
+          this.barrieList.unshift({
             enterpriseCode: this.$route.query.enterpriseCode,
             adChannelType: '',
             adChannelCode: '',

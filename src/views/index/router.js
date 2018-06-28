@@ -146,6 +146,43 @@ const routers = [
         ]
       },
       {
+        // 订单管理
+        path: 'order',
+        component (resolve) {
+          require.ensure(['./order/main.vue'], () => {
+            resolve(require('./order/main.vue'))
+          })
+        },
+        children: [
+          {
+            // 订单管理
+            path: '',
+            name: 'order',
+            component (resolve) {
+              require.ensure(['./order/order.vue'], () => {
+                resolve(require('./order/order.vue'))
+              })
+            },
+            meta: {
+              title: '订单管理'
+            }
+          },
+          {
+            // 订单管理
+            path: 'orderDetail',
+            name: 'order-detail',
+            component (resolve) {
+              require.ensure(['./order/orderDetail.vue'], () => {
+                resolve(require('./order/orderDetail.vue'))
+              })
+            },
+            meta: {
+              title: '订单管理'
+            }
+          }
+        ]
+      },
+      {
         // 素材库
         path: 'source',
         name: 'source',

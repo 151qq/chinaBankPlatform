@@ -20,64 +20,65 @@
           </section>
           <section class="formBox">
               <span>关卡序号</span>
-              <el-input type="number" class="input-box" size="small" :min="1"
-                  v-model="item.gameGateSequence"></el-input>
+              <el-input-number class="input-box" size="small" :min="1"
+                  v-model="item.gameGateSequence"></el-input-number>
           </section>
           <section class="formBox">
               <span>通关时间(s)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gateTimeLimit"></el-input>
+              <el-input-number class="input-box" size="small" :min="15"
+                  v-model="item.gateTimeLimit"></el-input-number>
           </section>
           <section class="formBox">
               <span>题目总数</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gateSubjectNumber"></el-input>
+              <el-input-number class="input-box" size="small" :min="1"
+                  v-model="item.gateSubjectNumber"></el-input-number>
           </section>
           <section class="formBox">
               <span>题目高于(分)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.difficultSubjectRate"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.difficultSubjectRate"></el-input-number>
           </section>
           <section class="formBox">
               <span>高分题数</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gateDifficultSubjectNumber"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateDifficultSubjectNumber"></el-input-number>
           </section>
           <section class="formBox">
               <span>题目低于(分)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.subjectEasyRate"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.subjectEasyRate"></el-input-number>
           </section>
           <section class="formBox">
               <span>低分题数</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gateEasySubjectNumber"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateEasySubjectNumber"></el-input-number>
           </section>
           <section class="formBox">
               <span>通关阈值(%)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gatePassRate"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gatePassRate"></el-input-number>
           </section>
           <section class="formBox">
               <span>挑战消耗积分</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gateConsumePoint"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateConsumePoint"></el-input-number>
           </section>
           <section class="formBox">
               <span>允许作弊次数</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gateCheatNumber"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateCheatNumber"></el-input-number>
           </section>
           <section class="formBox">
               <span>作弊消耗积分</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.cheatConsumePoint"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.cheatConsumePoint"></el-input-number>
           </section>
           <section class="formBox">
               <span>通关奖励类型</span>
               <el-select
                 class="input-box"
                 v-model="item.gatePassIncentiveType"
+                :disabled="!isEdit"
                 filterable
                 placeholder="请选择">
                 <el-option
@@ -95,6 +96,7 @@
                 class="input-box"
                 v-model="item.gatePassCoupon"
                 filterable
+                :disabled="!isEdit"
                 placeholder="请选择"
                 @change="couponChange">
                 <el-option
@@ -110,17 +112,61 @@
                 </el-option>
               </el-select>
           </section>
+          <section class="formBox" v-if="item.gatePassIncentiveType == '2'">
+              <span>奖励礼品</span>
+              <el-select
+                class="input-box"
+                v-model="item.gatePassGift"
+                filterable
+                :disabled="!isEdit"
+                placeholder="请选择">
+                <el-option
+                  v-for="(gift, index) in giftLists"
+                  :label="gift.productCname"
+                  :value="gift.productCode">
+                </el-option>
+              </el-select>
+          </section>
 
           <section class="formBox" v-if="item.gatePassIncentiveType == '0'">
               <span>奖励金额(元)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gatePassCash"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gatePassCash"></el-input-number>
+          </section>
+
+          <section class="formBox" v-if="item.gatePassIncentiveType != '3'">
+              <span>通关取奖类型</span>
+              <el-select
+                class="input-box"
+                v-model="item.gatePassAwardType"
+                filterable
+                placeholder="请选择">
+                <el-option
+                  v-for="(item, index) in gatePassAwardTypes"
+                  :key="index"
+                  :label="item.key"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+          </section>
+
+          <section class="formBox" v-if="item.gatePassAwardType == '2' && item.gatePassIncentiveType != '3'">
+              <span>通关中奖序号</span>
+              <el-input-number class="input-box" size="small" :min="1"
+                  v-model="item.gatePassAveragePlayer"></el-input-number>
+          </section>
+
+          <section class="formBox" v-if="item.gatePassAwardType == '2' && item.gatePassIncentiveType != '3'">
+              <span>最大通关中奖数</span>
+              <el-input-number class="input-box" size="small" :min="1"
+                  :disabled="!isEdit"
+                  v-model="item.gatePassGiftSum"></el-input-number>
           </section>
 
           <section class="formBox">
               <span>通关积分</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gatePassPoint"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gatePassPoint"></el-input-number>
           </section>
 
           <section class="formBox">
@@ -128,6 +174,7 @@
               <el-select
                 class="input-box"
                 v-model="item.gateFailIncentiveType"
+                :disabled="!isEdit"
                 filterable
                 placeholder="请选择">
                 <el-option
@@ -144,6 +191,7 @@
               <el-select
                 class="input-box"
                 v-model="item.gateFailCoupon"
+                :disabled="!isEdit"
                 filterable
                 placeholder="请选择"
                 @change="couponChange">
@@ -161,16 +209,61 @@
               </el-select>
           </section>
 
+          <section class="formBox" v-if="item.gateFailIncentiveType == '2'">
+              <span>安慰礼品</span>
+              <el-select
+                class="input-box"
+                v-model="item.gateFailGift"
+                filterable
+                :disabled="!isEdit"
+                placeholder="请选择">
+                <el-option
+                  v-for="(gift, index) in giftLists"
+                  :label="gift.productCname"
+                  :value="gift.productCode">
+                </el-option>
+              </el-select>
+          </section>
+
           <section class="formBox" v-if="item.gateFailIncentiveType == '0'">
               <span>安慰鼓励(元)</span>
-              <el-input type="number" class="input-box" size="small" :min="15" :max="60"
-                  v-model="item.gateFailCash"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateFailCash"></el-input-number>
+          </section>
+
+          <section class="formBox" v-if="item.gateFailIncentiveType != '3'">
+              <span>安慰取奖类型</span>
+              <el-select
+                class="input-box"
+                v-model="item.gateFailAwardType"
+                filterable
+                placeholder="请选择">
+                <el-option
+                  v-for="(item, index) in gatePassAwardTypes"
+                  :key="index"
+                  :label="item.key"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+          </section>
+
+          <section class="formBox" v-if="item.gateFailAwardType == '2' && item.gateFailIncentiveType != '3'">
+              <span>安慰中奖序号</span>
+              <el-input-number class="input-box" size="small" :min="1"
+                  v-model="item.gateFailAveragePlayer"></el-input-number>
+          </section>
+
+          <section class="formBox" v-if="item.gateFailAwardType == '2' && item.gateFailIncentiveType != '3'">
+              <span>最大安慰中奖数</span>
+              <el-input-number class="input-box" size="small" :min="1"
+                  :disabled="!isEdit"
+                  v-model="item.gateFailGiftSum"></el-input-number>
           </section>
 
           <section class="formBox">
               <span>安慰积分</span>
-              <el-input type="number" class="input-box" size="small" :min="0"
-                  v-model="item.gateFailPoit"></el-input>
+              <el-input-number class="input-box" size="small" :min="0"
+                  v-model="item.gateFailPoit"></el-input-number>
           </section>
           <section class="formBox">
               <span>关卡题材</span>
@@ -187,47 +280,6 @@
                 </el-option>
               </el-select>
           </section>
-          <section class="formBox">
-            <span>成功者称号</span>
-            <el-input
-              class="input-box"
-              placeholder="请输入内容,最20个字"
-              :maxlength="20"
-              v-model="item.gatePassNickname">
-            </el-input>
-          </section>
-          <section class="formBox">
-            <span>失败者称号</span>
-            <el-input
-              class="input-box"
-              placeholder="请输入内容,最20个字"
-              :maxlength="20"
-              v-model="item.gateFailNickname">
-            </el-input>
-          </section>
-          <div class="clear"></div>
-          <section class="formBox">
-            <span>成功者徽章</span>
-            <div class="input-box">
-              <upload :path="item.gatePassImg"
-                      :bg-path="false"
-                      :is-operate="isEdit"
-                      :item-index="index"
-                      :id-name="'gatePassImg'"
-                      @changeImg="changePassImg"></upload>
-            </div>
-          </section>
-          <section class="formBox">
-            <span>失败者徽章</span>
-            <div class="input-box">
-              <upload :path="item.gateFailImg"
-                      :bg-path="false"
-                      :is-operate="isEdit"
-                      :item-index="index"
-                      :id-name="'gateFailImg'"
-                      @changeImg="changeFailImg"></upload>
-            </div>
-          </section>       
         </div>
         <router-link class="save-btn"
                     target="_blank"
@@ -246,7 +298,7 @@
         <el-button v-if="isEdit" class="save-btn" type="danger" :plain="true" size="small" icon="delete2"
             @click="deleteBase(item, index)">删除</el-button>
 
-        <el-button v-if="isEdit" class="save-btn" type="info" :plain="true" size="small" icon="document"
+        <el-button class="save-btn" type="info" :plain="true" size="small" icon="document"
             @click="saveBase(item)">保存</el-button>
         <div class="clear"></div>
       </section>
@@ -276,8 +328,22 @@ export default {
                 key: '套券'
               },
               {
+                value: '2',
+                key: '礼品'
+              },
+              {
                 value: '3',
                 key: '无'
+              }
+            ],
+            gatePassAwardTypes: [
+              {
+                value: '1',
+                key: '兑奖'
+              },
+              {
+                value: '2',
+                key: '摇奖'
               }
             ],
             tagList: {
@@ -292,12 +358,14 @@ export default {
                 industry_type: [],
                 content_politics: []
             },
-            hasSelectCoupons: []
+            hasSelectCoupons: [],
+            giftLists: []
         }
     },
     mounted () {
       this.getList()
       this.getTags()
+      this.getGifts()
     },
     computed: {
         ...mapGetters({
@@ -310,12 +378,6 @@ export default {
     methods: {
         formDataDate (date) {
           return util.formDataDate(date)
-        },
-        changeFailImg (data) {
-          this.barrieList[data.index].gateFailImg = data.url
-        },
-        changePassImg (data) {
-          this.barrieList[data.index].gatePassImg = data.url
         },
         getTags () {
             util.request({
@@ -362,8 +424,24 @@ export default {
           })
           this.hasSelectCoupons = arrs
         },
+        getGifts () {
+            util.request({
+                method: 'get',
+                interface: 'gifProductList',
+                data: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    productType: 'gift'
+                }
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.giftLists = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })       
+        },
         addBarrier () {
-          this.barrieList.shift({
+          this.barrieList.unshift({
             gameCode: this.gameCode,
             gameGateSequence: '',
             gameGateCode: '',
@@ -379,11 +457,19 @@ export default {
             gatePassIncentiveType: '1',
             gatePassCash: '',
             gatePassCoupon: '',
+            gatePassGift: '',
+            gatePassAwardType: '2',
+            gatePassAveragePlayer: '',
+            gatePassGiftSum: '',
             gatePassPoint: '',
             gatePassNickname: '',
             gateFailIncentiveType: '1',
             gateFailCash: '',
             gateFailCoupon: '',
+            gateFailGift: '',
+            gateFailAwardType: '2',
+            gateFailAveragePlayer: '',
+            gateFailGiftSum: '',
             gateFailPoit: '',
             gateSubjectTag: '',
             gateFailNickname: '',
@@ -394,7 +480,7 @@ export default {
           })
         },
         deleteBase (barrieData, index) {
-          if (!barrieData.code) {
+          if (!barrieData.gameGateCode) {
             this.barrieList.splice(index, 1)
           } else {
             util.request({
@@ -413,7 +499,7 @@ export default {
           }
         },
         saveBase (barrieData) {
-            if (barrieData.gameGateName.trim() == '') {
+            if (barrieData.gameGateName.trim() === '') {
                 this.$message({
                     message: '请填写关卡名称！',
                     type: 'warning'
@@ -421,7 +507,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.gameGateSequence) {
+            if (barrieData.gameGateSequence === '') {
                 this.$message({
                     message: '请填写关卡序号！',
                     type: 'warning'
@@ -429,7 +515,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.gateTimeLimit) {
+            if (barrieData.gateTimeLimit === '') {
                 this.$message({
                     message: '请填写通关时间！',
                     type: 'warning'
@@ -437,7 +523,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateSubjectNumber == '') {
+            if (barrieData.gateSubjectNumber === '') {
                 this.$message({
                     message: '请填写题目总数！',
                     type: 'warning'
@@ -445,7 +531,7 @@ export default {
                 return false
             }
 
-            if (barrieData.difficultSubjectRate == '') {
+            if (barrieData.difficultSubjectRate === '') {
                 this.$message({
                     message: '请填写题目高于分数！',
                     type: 'warning'
@@ -453,7 +539,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateDifficultSubjectNumber == '') {
+            if (barrieData.gateDifficultSubjectNumber === '') {
                 this.$message({
                     message: '请填写高分题数！',
                     type: 'warning'
@@ -461,7 +547,7 @@ export default {
                 return false
             }
 
-            if (barrieData.subjectEasyRate == '') {
+            if (barrieData.subjectEasyRate === '') {
                 this.$message({
                     message: '请填写题目低于分数！',
                     type: 'warning'
@@ -469,7 +555,7 @@ export default {
                 return false
             }
 
-            if (barrieData.subjectEasyRate > barrieData.difficultSubjectRate) {
+            if (Number(barrieData.subjectEasyRate) > Number(barrieData.difficultSubjectRate)) {
                 this.$message({
                     message: '高分数必须大于低分数！',
                     type: 'warning'
@@ -477,7 +563,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateEasySubjectNumber == '') {
+            if (barrieData.gateEasySubjectNumber === '') {
                 this.$message({
                     message: '请填写低分题数！',
                     type: 'warning'
@@ -485,7 +571,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateSubjectNumber < Number(barrieData.gateDifficultSubjectNumber) + Number(barrieData.gateEasySubjectNumber)) {
+            if (Number(barrieData.gateSubjectNumber) < Number(barrieData.gateDifficultSubjectNumber) + Number(barrieData.gateEasySubjectNumber)) {
                 this.$message({
                     message: '题数数量分配不对！',
                     type: 'warning'
@@ -493,7 +579,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.gatePassRate) {
+            if (barrieData.gatePassRate === '') {
                 this.$message({
                     message: '请填写通关阈值！',
                     type: 'warning'
@@ -501,7 +587,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.gateConsumePoint) {
+            if (barrieData.gateConsumePoint === '') {
                 this.$message({
                     message: '请填写挑战消耗几分！',
                     type: 'warning'
@@ -509,7 +595,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.gateCheatNumber) {
+            if (barrieData.gateCheatNumber === '') {
                 this.$message({
                     message: '请填写允许作弊次数！',
                     type: 'warning'
@@ -517,7 +603,7 @@ export default {
                 return false
             }
 
-            if (!barrieData.cheatConsumePoint) {
+            if (barrieData.cheatConsumePoint === '') {
                 this.$message({
                     message: '请填写作弊消耗积分！',
                     type: 'warning'
@@ -525,7 +611,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gatePassIncentiveType == '0' && !barrieData.gatePassCash) {
+            if (barrieData.gatePassIncentiveType === '0' && !barrieData.gatePassCash) {
                 this.$message({
                     message: '请填写奖励金额！',
                     type: 'warning'
@@ -533,7 +619,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gatePassIncentiveType == '1' && !barrieData.gatePassCoupon) {
+            if (barrieData.gatePassIncentiveType === '1' && !barrieData.gatePassCoupon) {
                 this.$message({
                     message: '请选择奖励套券！',
                     type: 'warning'
@@ -541,7 +627,15 @@ export default {
                 return false
             }
 
-            if (barrieData.gatePassPoint == '') {
+            if (barrieData.gatePassIncentiveType === '2' && !barrieData.gatePassGift) {
+                this.$message({
+                    message: '请选择奖励礼品！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gatePassPoint === '') {
                 this.$message({
                     message: '请填写通关积分！',
                     type: 'warning'
@@ -549,7 +643,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateFailIncentiveType == '0' && !barrieData.gateFailCash) {
+            if (barrieData.gateFailIncentiveType === '0' && !barrieData.gateFailCash) {
                 this.$message({
                     message: '请填写安慰金额！',
                     type: 'warning'
@@ -557,7 +651,7 @@ export default {
                 return false
             }
 
-            if (barrieData.gateFailIncentiveType == '1' && !barrieData.gateFailCoupon) {
+            if (barrieData.gateFailIncentiveType === '1' && !barrieData.gateFailCoupon) {
                 this.$message({
                     message: '请选择安慰套券！',
                     type: 'warning'
@@ -565,7 +659,47 @@ export default {
                 return false
             }
 
-            if (barrieData.gateFailPoit == '') {
+            if (barrieData.gateFailIncentiveType === '2' && !barrieData.gateFailGift) {
+                this.$message({
+                    message: '请选择奖励礼品！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gatePassIncentiveType !== '3' && barrieData.gatePassAwardType === '2' && !barrieData.gatePassAveragePlayer) {
+                this.$message({
+                    message: '请填写通关中奖序号！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gatePassIncentiveType !== '3' && barrieData.gatePassAwardType === '2' && !barrieData.gatePassGiftSum) {
+                this.$message({
+                    message: '请填写最大通关中奖数！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gateFailIncentiveType !== '3' && barrieData.gateFailAwardType === '2' && !barrieData.gateFailAveragePlayer) {
+                this.$message({
+                    message: '请填写安慰中奖序号！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gateFailIncentiveType !== '3' && barrieData.gateFailAwardType === '2' && !barrieData.gateFailGiftSum) {
+                this.$message({
+                    message: '请填写最大安慰中奖数！',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (barrieData.gateFailPoit === '') {
                 this.$message({
                     message: '请填写安慰积分！',
                     type: 'warning'
@@ -581,45 +715,45 @@ export default {
                 return false
             }
 
-            if (!barrieData.gatePassNickname) {
-                this.$message({
-                    message: '请选择成功者称号！',
-                    type: 'warning'
-                })
-                return false
+            if (barrieData.gatePassIncentiveType === '3') {
+                barrieData.gatePassCoupon = ''
+                barrieData.gatePassCash = ''
+                barrieData.gatePassGift = ''
             }
 
-            if (!barrieData.gateFailNickname) {
-                this.$message({
-                    message: '请选择失败者称号！',
-                    type: 'warning'
-                })
-                return false
+            if (barrieData.gatePassIncentiveType === '0') {
+                barrieData.gatePassCoupon = ''
+                barrieData.gatePassGift = ''
             }
 
-            if (barrieData.gatePassIncentiveType == '3') {
+            if (barrieData.gatePassIncentiveType === '1') {
+                barrieData.gatePassCash = ''
+                barrieData.gatePassGift = ''
+            }
+
+            if (barrieData.gatePassIncentiveType === '2') {
                 barrieData.gatePassCoupon = ''
                 barrieData.gatePassCash = ''
             }
 
-            if (barrieData.gatePassIncentiveType == '0') {
-                barrieData.gatePassCoupon = ''
-            }
-
-            if (barrieData.gatePassIncentiveType == '1') {
-                barrieData.gatePassCash = ''
-            }
-
-            if (barrieData.gateFailIncentiveType == '3') {
+            if (barrieData.gateFailIncentiveType === '3') {
                 barrieData.gateFailCoupon = ''
                 barrieData.gateFailCash = ''
+                barrieData.gateFailGift = ''
             }
 
-            if (barrieData.gateFailIncentiveType == '0') {
+            if (barrieData.gateFailIncentiveType === '0') {
                 barrieData.gateFailCoupon = ''
+                barrieData.gateFailGift = ''
             }
 
-            if (barrieData.gateFailIncentiveType == '1') {
+            if (barrieData.gateFailIncentiveType === '1') {
+                barrieData.gateFailCash = ''
+                barrieData.gateFailGift = ''
+            }
+
+            if (barrieData.gateFailIncentiveType === '2') {
+                barrieData.gateFailCoupon = ''
                 barrieData.gateFailCash = ''
             }
             

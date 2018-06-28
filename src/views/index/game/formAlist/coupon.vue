@@ -40,7 +40,7 @@
             <template scope="scope">
               <i class="btn-box el-icon-delete2"
                   v-if="base.eventStatus == '1' || base.eventStatus == '2'"
-                  @click="deleteCoupon(scope.row)"></i>
+                  @click="deleteCoupon(scope.row.couponCode)"></i>
   
               <router-link  class="btn-box el-icon-document"
                             target="_blank"

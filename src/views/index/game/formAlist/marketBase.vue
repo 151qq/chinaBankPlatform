@@ -3,12 +3,13 @@
       <div class="formDiscount">
         <section class="formBox bigF">
             <span>游戏名称</span>
-            <el-input
-              class="input-box"
-              placeholder="请输入内容,最多16个字"
-              :maxlength="16"
-              v-model="base.eventPlanTitle">
-            </el-input>
+            <div class="input-box">
+              <ueditor :editor-id="'gameTitle'"
+                      :editor-type="'editText'"
+                      :index="'eventPlanTitle'"
+                      :content="base.eventPlanTitle"
+                      @setContent="setContent"></ueditor>
+            </div>
         </section>
         <section class="formBox">
             <span>生效时间</span>
@@ -27,7 +28,6 @@
               class="input-box"
               type="date"
               :disabled="!!$route.query.eventCode"
-              :picker-options="pickerOptionsEnd"
               v-model="base.eventEndTime"
               placeholder="选择">
             </el-date-picker>
@@ -50,24 +50,24 @@
         </section>
         <section class="formBox">
             <span>新增潜客</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventLeads"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventLeads"></el-input-number>
         </section>
         <section class="formBox">
             <span>新增商机</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventHotLeads"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventHotLeads"></el-input-number>
         </section>
-        <section class="formBox rightF">
+        <section class="formBox">
             <span>新增销售</span>
-            <el-input type="number" class="input-box" size="small" :min="0"
-                v-model="base.eventSalesOpp"></el-input>
+            <el-input-number class="input-box" size="small" :min="0"
+                  v-model="base.eventSalesOpp"></el-input-number>
         </section>
         <section class="formBox bigF">
             <span>游戏说明</span>
             <div class="input-box">
               <ueditor :editor-id="'gameDesc'"
-                      :editor-type="'text'"
+                      :editor-type="'editText'"
                       :index="'eventPlanDesc'"
                       :content="base.eventPlanDesc"
                       @setContent="setContent"></ueditor>
@@ -78,7 +78,7 @@
           <div class="input-box">
             <upload :path="base.eventPlanCover"
                     :bg-path="false"
-                    :is-operate="isEdit"
+                    :is-operate="true"
                     @changeImg="changeImg"></upload>
           </div>
         </section>
@@ -97,7 +97,7 @@
         <el-button v-if="base.eventStatus == '3'" type="info" :plain="true" size="small" icon="share">统计</el-button>
       </router-link>
 
-      <el-button v-if="isEdit && (base.eventStatus == '1' || base.eventStatus == '2')" class="save-btn" type="info" :plain="true" size="small" icon="document"
+      <el-button v-if="isEdit" class="save-btn" type="info" :plain="true" size="small" icon="document"
           @click="saveBase()">保存</el-button>
       <div class="clear"></div>
     </section>
@@ -126,7 +126,7 @@ export default {
             isOperate: true,
             pickerOptions: {
               disabledDate(time) {
-                return time.getTime() < Date.now() + 3600 * 1000 * 24 * 5
+                return time.getTime() < Date.now() - 3600 * 1000 * 24
               }
             },
             eventTypes: [
@@ -152,18 +152,6 @@ export default {
         }),
         isEdit () {
           return this.$route.query.enterpriseCode == this.userInfo.enterpriseCode
-        },
-        pickerOptionsEnd () {
-          var eventStartTime = this.base.eventStartTime
-
-          return {
-            disabledDate(time) {
-              var todayTime = eventStartTime ? new Date(eventStartTime).getTime() : Date.now() + 3600 * 1000 * 24 * 5
-              var isLtoday = time.getTime() < todayTime
-              var isRtoday = time.getTime() > todayTime + 3600 * 1000 * 24 * 31
-              return isLtoday || isRtoday
-            }
-          }
         }
     },
     watch: {
@@ -227,14 +215,6 @@ export default {
 
             var startTimes = new Date(this.base.eventStartTime).getTime()
 
-            if (new Date().getTime() > startTimes) {
-              this.$message({
-                  message: '生效时间必须大于当前时间！',
-                  type: 'warning'
-              })
-              return false
-            }
-
             if (!this.base.eventEndTime) {
               this.$message({
                     message: '请填写失效时间！',
@@ -253,16 +233,8 @@ export default {
               return false
             }
 
-            if (endTimes - startTimes > 31 * 24 * 3600 * 1000) {
-              this.$message({
-                  message: '活动周期最长31天！',
-                  type: 'warning'
-              })
-              return false
-            }
-
-            this.base.eventStartTime = this.formDataDate(this.base.eventStartTime)
-            this.base.eventEndTime = this.formDataDate(this.base.eventEndTime)
+            this.base.eventStartTime = this.formDataDate(this.base.eventStartTime) + ' 23:59:59'
+            this.base.eventEndTime = this.formDataDate(this.base.eventEndTime) + ' 00:00:00'
 
             var interfaceName = 'eventInfoInsert'
 

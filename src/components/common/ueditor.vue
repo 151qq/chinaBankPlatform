@@ -31,6 +31,10 @@
                     'inserttable', 'deletetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'pasteplain', '|', 'forecolor', 'backcolor', 
                         
                 ]]
+            } else if (this.editorType == 'editText') {
+                this.config.toolbars = [[
+                    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'pasteplain', '|','lineheight','fontfamily', 'fontsize', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist'
+                ]]
             } else {
                 this.config.toolbars = [[
                     'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist'
